@@ -63,6 +63,7 @@ guard={
 2d_physics/layer_2="EnemyHitbox"
 2d_physics/layer_3="PlayerHitbox"
 2d_physics/layer_4="EnemyHurtbox"
+2d_physics/layer_5="Enviroment"
 
 [physics]
 

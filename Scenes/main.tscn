@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://dlstc85qdse1i"]
 
+[ext_resource type="PackedScene" uid="uid://dagrbh3l3sx4o" path="res://Scenes/lavel.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c3brhapcjrnvs" path="res://Scenes/player.tscn" id="1_jjgbg"]
 
 [node name="Main" type="Node2D" unique_id=2135842257]
 
+[node name="lavel" parent="." unique_id=779758874 instance=ExtResource("1_bo1nx")]
+
 [node name="Player" parent="." unique_id=195432165 instance=ExtResource("1_jjgbg")]
-position = Vector2(622, 325)
+position = Vector2(632, 329)

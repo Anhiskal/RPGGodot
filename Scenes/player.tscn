@@ -14,17 +14,21 @@
 [ext_resource type="Script" uid="uid://bb3w8pq8t2jvi" path="res://Scripts/Player/hurtbox_component.gd" id="9_tx1dd"]
 [ext_resource type="Script" uid="uid://bqtsiwsb1yngq" path="res://Scripts/Player/hitbox_component.gd" id="10_tx1dd"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
-radius = 1700000.1
-height = 5800000.5
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fd4e3"]
+radius = 16.0
+height = 52.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ukyrk"]
-radius = 31.0
-height = 98.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
+radius = 1300000.1
+height = 5800000.5
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dp3o"]
 radius = 8.0
 height = 48.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ukyrk"]
+radius = 31.0
+height = 98.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h4iuc"]
 radius = 20.0
@@ -509,6 +513,15 @@ transitions = ["Idle", "Run", SubResource("AnimationNodeStateMachineTransition_q
 graph_offset = Vector2(-63.1179, 0)
 
 [node name="Player" type="CharacterBody2D" unique_id=195432165]
+z_index = 5
+collision_mask = 16
+motion_mode = 1
+platform_wall_layers = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=610673345]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_fd4e3")
+debug_color = Color(0.2901961, 0.627451, 0.9843137, 0.47058824)
 
 [node name="InputComponent" type="Node2D" parent="." unique_id=83196729]
 script = ExtResource("1_pu2lt")
@@ -530,12 +543,26 @@ script = ExtResource("8_f1ek2")
 
 [node name="FrontHurtbox" type="Area2D" parent="." unique_id=2088117437]
 scale = Vector2(1e-05, 1e-05)
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("9_tx1dd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontHurtbox" unique_id=1845228693]
+position = Vector2(400000, 0)
 shape = SubResource("CapsuleShape2D_tx1dd")
+disabled = true
+debug_color = Color(0.9019608, 0, 0.7176471, 0.41960785)
+
+[node name="BackHurtbox" type="Area2D" parent="." unique_id=1326023595]
+script = ExtResource("9_tx1dd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BackHurtbox" unique_id=1447884533]
+position = Vector2(-17, 2)
+shape = SubResource("CapsuleShape2D_7dp3o")
 
 [node name="HitboxComponent" type="Area2D" parent="." unique_id=163094697]
+collision_layer = 4
+collision_mask = 8
 script = ExtResource("10_tx1dd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1579922830]
@@ -543,14 +570,9 @@ position = Vector2(31, 8)
 shape = SubResource("CapsuleShape2D_ukyrk")
 debug_color = Color(0.96282727, 0.15661037, 0.3005032, 0.41960785)
 
-[node name="BackHurtbox" type="Area2D" parent="." unique_id=1326023595]
-script = ExtResource("9_tx1dd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BackHurtbox" unique_id=1447884533]
-position = Vector2(-18, 2)
-shape = SubResource("CapsuleShape2D_7dp3o")
-
 [node name="ShieldHitbox" type="Area2D" parent="." unique_id=1882232542]
+collision_layer = 4
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldHitbox" unique_id=573091379]
 position = Vector2(10, 3)
