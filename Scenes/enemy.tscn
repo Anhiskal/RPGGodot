@@ -450,7 +450,7 @@ position = Vector2(87, 0)
 shape = SubResource("CircleShape2D_287tu")
 debug_color = Color(0.15389335, 0.6356687, 0.32733697, 0.41960785)
 
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1123942998]
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1123942998 groups=["Hurtbox"]]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("6_po0sg")
@@ -459,7 +459,7 @@ script = ExtResource("6_po0sg")
 shape = SubResource("CapsuleShape2D_0830c")
 debug_color = Color(0.015686275, 0.6, 0.7019608, 1)
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=14817910 groups=["EnemyHitbox"]]
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=14817910 groups=["EnemyHitbox", "Hitbox"]]
 collision_layer = 2
 collision_mask = 64
 script = ExtResource("7_haro7")

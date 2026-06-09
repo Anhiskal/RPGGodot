@@ -4,7 +4,7 @@ extends Area2D
 # SIGNALS
 # =========================================
 
-signal hit_something
+signal hit_confirmed
 
 # =========================================
 # ATTACK DATA
@@ -13,11 +13,54 @@ signal hit_something
 @export var damage : int = 10
 
 # =========================================
+# READY
+# =========================================
+
+func _ready():
+
+	# Desactivado por defecto
+	monitoring = false
+	monitorable = false
+
+# =========================================
+# HITBOX CONTROL
+# =========================================
+
+func enable_hitbox():
+
+	set_deferred(
+		"monitoring",
+		true
+	)
+
+	set_deferred(
+		"monitorable",
+		true
+	)
+
+
+func disable_hitbox():
+
+	set_deferred(
+		"monitoring",
+		false
+	)
+
+	set_deferred(
+		"monitorable",
+		false
+	)
+
+# =========================================
 # DETECT HIT
 # =========================================
 
 func _on_area_entered(area):
 
-	print("HIT DETECTADO")
+	# Verifica que sea una hurtbox
+	if not area.is_in_group("Hurtbox"):
+		return
 
-	hit_something.emit()
+	print("HIT DETECTED")
+
+	hit_confirmed.emit()

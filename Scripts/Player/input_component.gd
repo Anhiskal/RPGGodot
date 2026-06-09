@@ -4,7 +4,7 @@ extends Node
 # REFERENCES
 # =========================================
 
-@onready var movement_component = $"../PlayerMovement"
+@onready var movement_component = $"../MovementComponent"
 @onready var combat_component = $"../CombatComponent"
 @onready var shield_component = $"../ShieldComponent"
 

@@ -1,129 +1,101 @@
 extends Node
 
 # =========================================
+# SIGNALS
+# =========================================
+
+signal attack_1_started
+signal attack_2_started
+signal attack_1_finished
+signal attack_2_finished
+
+# =========================================
 # REFERENCES
 # =========================================
 
-@onready var player = get_parent()
-@onready var state_machine = $"../StateMachine"
-@onready var hitbox = $"../HitboxComponent"
+@onready var hitbox = $"../../Collision/SwordHitbox"
 
 # =========================================
 # VARIABLES
 # =========================================
 
 var is_attacking : bool = false
+var current_attack : int = 0
 
 # =========================================
 # READY
 # =========================================
 func _ready():
-
-	# Detectar cuando golpea algo
-	hitbox.hit_something.connect(
+	# Conectar señal del hitbox
+	hitbox.hit_confirmed.connect(
 		_on_hit_confirmed
 	)
 	
-	disable_hitbox()
+	hitbox.disable_hitbox()
 
 # =========================================
-# ATTACK
+# ATTACK 1
 # =========================================
 
 func attack_1():
 
 	if is_attacking:
 		return
-
-	# No atacar si está ocupado
-	if state_machine.is_busy():
-		return
-
+	
+	hitbox.enable_hitbox()
 	is_attacking = true
+	current_attack = 1	
 
-	state_machine.change_state(
-		state_machine.State.ATTACK
-	)	
+	attack_1_started.emit()
 
 
+# =========================================
+# ATTACK 2
+# =========================================
 func attack_2():
 
 	if is_attacking:
-		return
-	# No atacar si está ocupado
-	if state_machine.is_busy():
-		return
+		return	
 
+	hitbox.enable_hitbox()
 	is_attacking = true
+	current_attack = 2	
 
-	state_machine.change_state(
-		state_machine.State.ATTACK_2
-	)
-		
-
-# =========================================
-# HITBOX CONTROL
-# =========================================
-
-func enable_hitbox():
-
-	#haz esto cuando termine el frame de física
-	hitbox.set_deferred(
-		"monitoring",
-		true
-	)
+	attack_2_started.emit()
 	
-	hitbox.set_deferred(
-		"monitorable",
-		true
-	)
-	
-	print("HITBOX ON")
-
-
-func disable_hitbox():
-
-	#haz esto cuando termine el frame de física
-	hitbox.set_deferred(
-		"monitoring",
-		false
-	)
-	
-	hitbox.set_deferred(
-		"monitorable",
-		false
-	)
-	print("HITBOX OFF")
-	
-	
-# =========================================
-# HIT CONFIRM
-# =========================================
-
-func _on_hit_confirmed():
-
-	print("GOLPE CONFIRMADO")
-	disable_hitbox()
-
-
 # =========================================
 # ATTACK END
 # =========================================
 
-func finish_attack():
+func finish_1_attack():
 	
-	disable_hitbox()	
-	
-	state_machine.change_state(
-		state_machine.State.IDLE
-	)
-	
-	start_attack_cooldown()
-	
-func start_attack_cooldown():
-
-	await get_tree().create_timer(
-		PlayerStatsManager.cooldown_attack
-	).timeout
+	hitbox.disable_hitbox()
 
 	is_attacking = false
+	current_attack = 0
+
+	attack_1_finished.emit()
+	
+func finish_2_attack():
+	
+	hitbox.disable_hitbox()
+
+	is_attacking = false
+	current_attack = 0
+
+	attack_2_finished.emit()
+	
+# =========================================
+# HIT CONFIRMED
+# =========================================
+
+func _on_hit_confirmed():
+
+	print("PLAYER HIT CONFIRMED")
+
+	# Emitir señal global
+	#attack_hit_confirmed.emit()
+
+	# Evita múltiples hits
+	hitbox.disable_hitbox()
+	

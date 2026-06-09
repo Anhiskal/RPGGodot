@@ -21,9 +21,7 @@ var current_state : State = State.IDLE
 # REFERENCES
 # =========================================
 
-@onready var player = get_parent()
-@onready var animation_tree = player.get_node("AnimationTree")
-@onready var playback = animation_tree["parameters/playback"]
+@onready var animation_controller = $"../AnimationController"
 
 # =========================================
 # READY
@@ -49,69 +47,25 @@ func change_state(new_state : State):
 	match current_state:
 
 		State.IDLE:
-			enter_idle()
+			animation_controller.play_idle()
 
 		State.WALK:
-			enter_walk()
+			animation_controller.play_walk()
 
 		State.ATTACK:
-			enter_attack()
+			animation_controller.play_attack1()
 
 		State.ATTACK_2:
-			enter_attack2()
+			animation_controller.play_attack2()
 
 		State.GUARD:
-			enter_guard()
+			animation_controller.play_guard()
 
 		State.HURT:
-			enter_hurt()
+			animation_controller.play_hurt()
 
 		State.DEAD:
-			enter_dead()
-
-# =========================================
-# STATE FUNCTIONS
-# =========================================
-
-func enter_idle():
-
-	print("ENTER IDLE")
-	playback.travel("Idle")
-
-
-func enter_walk():
-
-	print("ENTER WALK")
-	playback.travel("Run")
-
-
-func enter_attack():
-
-	print("ENTER ATTACK")
-	playback.travel("Attack_1")
-
-
-func enter_attack2():
-
-	print("ENTER ATTACK")
-	playback.travel("Attack_2")
-
-
-func enter_hurt():
-
-	print("ENTER HURT")
-	#playback.travel("Hurt")
-
-
-func enter_dead():
-
-	print("ENTER DEAD")
-	#playback.travel("Dead")
-	
-func enter_guard():
-	
-	print("ENTER GUARD")
-	playback.travel("Block")
+			animation_controller.play_dead()
 
 # =========================================
 # HELPERS

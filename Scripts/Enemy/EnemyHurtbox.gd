@@ -15,6 +15,7 @@ var can_receive_damage : bool = true
 # =========================================
 
 func _on_area_entered(area):
+	print("El enemigo recibio daño")
 	
 	if not can_receive_damage:
 		return
@@ -33,6 +34,8 @@ func _on_area_entered(area):
 		state_machine.change_state(
 			state_machine.State.HURT
 		)
+		
+		
 	
 	start_invulnerability()
 		

@@ -23,9 +23,7 @@ var can_attack : bool = true
 
 func _ready():
 
-	hitbox.hit_something.connect(
-		_on_hit_confirmed
-	)
+	#hitbox.hit_something.connect(_on_hit_confirmed	)
 	
 	disable_hitbox()
 
