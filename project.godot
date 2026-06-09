@@ -19,6 +19,12 @@ config/icon="res://icon.svg"
 
 PlayerStatsManager="*uid://i0x471k1uynp"
 
+[global_group]
+
+Player=""
+PlayerHitbox=""
+EnemyHitbox=""
+
 [input]
 
 move_left={
@@ -64,6 +70,8 @@ guard={
 2d_physics/layer_3="PlayerHitbox"
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="Enviroment"
+2d_physics/layer_6="EnemyDetection"
+2d_physics/layer_7="PlayerHurtbox"
 
 [physics]
 

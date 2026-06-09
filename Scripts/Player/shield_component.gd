@@ -17,6 +17,11 @@ extends Node
 
 var is_blocking : bool = false
 
+
+func _ready():	
+	# Desactivado por defecto
+	shield_hitbox.monitoring = false
+
 # =========================================
 # BLOCK
 # =========================================

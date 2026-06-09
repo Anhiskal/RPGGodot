@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dagrbh3l3sx4o" path="res://Scenes/lavel.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c3brhapcjrnvs" path="res://Scenes/player.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://bask8aiit4rlm" path="res://Scenes/enemy.tscn" id="3_8gbba"]
 
 [node name="Main" type="Node2D" unique_id=2135842257]
 
@@ -9,3 +10,6 @@
 
 [node name="Player" parent="." unique_id=195432165 instance=ExtResource("1_jjgbg")]
 position = Vector2(632, 329)
+
+[node name="Enemy" parent="." unique_id=1492723029 instance=ExtResource("3_8gbba")]
+position = Vector2(864, 161)
