@@ -4,12 +4,12 @@ class_name player_stats_manager
 # COMBAT STATS
 # =========================================
 
-var damage : int = 10
-var weapon_range : float = 1.5
+@export var damage : int = 20
+@export var weapon_range : float = 1.5
 var knockback_force : float = 250.0
 var knockback_time : float = 0.2
 var stun_time : float = 0.5
-var cooldown_attack : float = 1.0
+@export var cooldown_attack : float = 1.5
 var current_time_attack : float = 0.0
 
 

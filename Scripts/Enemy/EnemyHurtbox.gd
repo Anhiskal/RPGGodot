@@ -5,10 +5,10 @@ extends Area2D
 # =========================================
 
 @onready var health_component = $"../HealthComponent"
-@onready var state_machine = $"../StateMachine"
+@onready var state_machine = $"../EnemyStateMachine"
+
 
 var can_receive_damage : bool = true
-
 
 # =========================================
 # DETECT DAMAGE
@@ -16,27 +16,24 @@ var can_receive_damage : bool = true
 
 func _on_area_entered(area):
 	
-	print("ALGO ENTRÓ")
-
-	# Verificar grupo PRIMERO
-	if not area.is_in_group("EnemyHitbox"):
-		return
-
 	if not can_receive_damage:
 		return
-
+		
 	can_receive_damage = false
+	
+	# Verificar si es hitbox del jugador
+	if area.is_in_group("PlayerHitbox"):
 
-	print("EL JUGADOR RECIBIÓ DAÑO")
+		# Recibir daño
+		health_component.take_damage(
+			PlayerStatsManager.damage
+		)
 
-	health_component.take_damage(
-		area.damage
-	)
-
-	state_machine.change_state(
-		state_machine.State.HURT
-	)
-
+		# Estado hurt
+		state_machine.change_state(
+			state_machine.State.HURT
+		)
+	
 	start_invulnerability()
 		
 func start_invulnerability():

@@ -3,64 +3,64 @@ extends Node
 # =========================================
 # REFERENCES
 # =========================================
-
-@onready var player = get_parent()
-@onready var state_machine = $"../StateMachine"
+@onready var enemy = get_parent()
+@onready var movement = $"../EnemyMovement"
+@onready var state_machine = $"../EnemyStateMachine"
 @onready var hitbox = $"../HitboxComponent"
 
 # =========================================
 # VARIABLES
 # =========================================
+@export var attack_range : float = 80.0
+@export var attack_cooldown : float = 1.5
 
-var is_attacking : bool = false
+# Controla si el enemigo puede atacar
+var can_attack : bool = true
 
 # =========================================
 # READY
 # =========================================
+
 func _ready():
 
-	# Detectar cuando golpea algo
 	hitbox.hit_something.connect(
 		_on_hit_confirmed
 	)
 	
 	disable_hitbox()
 
+
 # =========================================
-# ATTACK
+# MAIN FUNTIONS
 # =========================================
+func _process(delta):
 
-func attack_1():
-
-	if is_attacking:
+	if movement.target == null:
+		#Si no a detectado al jugador
 		return
 
-	# No atacar si está ocupado
-	if state_machine.is_busy():
+	if state_machine.current_state == state_machine.State.DEAD:
+		#Si el enemigo esta muerto
+		return		
+	
+	if not can_attack:
+		# Si no puede atacar todavía
 		return
 
-	is_attacking = true
-
-	state_machine.change_state(
-		state_machine.State.ATTACK
-	)	
-
-
-func attack_2():
-
-	if is_attacking:
-		return
-	# No atacar si está ocupado
-	if state_machine.is_busy():
-		return
-
-	is_attacking = true
-
-	state_machine.change_state(
-		state_machine.State.ATTACK_2
+	#Distancia entre el enemigo y el jugador
+	var distance = enemy.global_position.distance_to(
+		movement.target.global_position
 	)
-		
 
+	if distance <= attack_range and can_attack:		
+		#Si el enemigo esta en el rango de ataque y no esta realizando un ataque		
+		
+		can_attack = false
+
+		state_machine.change_state(
+			state_machine.State.ATTACK
+		)
+		
 # =========================================
 # HITBOX CONTROL
 # =========================================
@@ -78,8 +78,7 @@ func enable_hitbox():
 		true
 	)
 	
-	print("HITBOX ON")
-
+	print("HITBOX ENEMY ON")
 
 func disable_hitbox():
 
@@ -93,37 +92,39 @@ func disable_hitbox():
 		"monitorable",
 		false
 	)
-	print("HITBOX OFF")
 	
-	
+	print("HITBOX ENEMY OFF")
+		
 # =========================================
 # HIT CONFIRM
 # =========================================
 
 func _on_hit_confirmed():
 
-	print("GOLPE CONFIRMADO")
+	print("ENEMY HIT CONFIRMED")
 	disable_hitbox()
 
-
 # =========================================
-# ATTACK END
+# ATTACK FINISH
 # =========================================
-
-func finish_attack():
-	
+func finish_attack():	
+	#Cuando termine la animacion del ataque			
 	disable_hitbox()	
 	
+	if movement.target == null:
+		return
+			
 	state_machine.change_state(
-		state_machine.State.IDLE
+		state_machine.State.CHASE
 	)
 	
 	start_attack_cooldown()
 	
-func start_attack_cooldown():
+func start_attack_cooldown() -> void:
+	#Espera para el siguiente ataque
 
 	await get_tree().create_timer(
-		PlayerStatsManager.cooldown_attack
+		attack_cooldown
 	).timeout
-
-	is_attacking = false
+	
+	can_attack = true

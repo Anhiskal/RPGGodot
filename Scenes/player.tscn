@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c3brhapcjrnvs"]
 
+[ext_resource type="Script" uid="uid://cnwd0esblpw75" path="res://Scripts/Player/Player.gd" id="1_7dp3o"]
 [ext_resource type="Texture2D" uid="uid://cfwvuhmdb65mj" path="res://assets/Sprites/Player/Warrior_Attack1.png" id="1_fkybt"]
 [ext_resource type="Script" uid="uid://dosodfypefbbf" path="res://Scripts/Player/input_component.gd" id="1_pu2lt"]
 [ext_resource type="Script" uid="uid://dbrbbhocqoav7" path="res://Scripts/Player/player_movement.gd" id="1_x3wgy"]
@@ -17,10 +18,6 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fd4e3"]
 radius = 16.0
 height = 52.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
-radius = 1300000.1
-height = 5800000.5
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dp3o"]
 radius = 8.0
@@ -292,11 +289,17 @@ tracks/2/path = NodePath("CombatComponent")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.2, 0.4, 0.43333334),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
 "method": &"finish_attack"
+}, {
+"args": [],
+"method": &"disable_hitbox"
 }]
 }
 
@@ -334,11 +337,17 @@ tracks/2/path = NodePath("CombatComponent")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.36666667),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.2, 0.36666667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
 "method": &"finish_attack"
+}, {
+"args": [],
+"method": &"disable_hitbox"
 }]
 }
 
@@ -512,11 +521,16 @@ states/Start/position = Vector2(227, 100)
 transitions = ["Idle", "Run", SubResource("AnimationNodeStateMachineTransition_qqcod"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_igrcy"), "Idle", "Attack_1", SubResource("AnimationNodeStateMachineTransition_fs7ks"), "Idle", "Attack_2", SubResource("AnimationNodeStateMachineTransition_l6n3p"), "Idle", "Block", SubResource("AnimationNodeStateMachineTransition_olqyp"), "Block", "Idle", SubResource("AnimationNodeStateMachineTransition_wpjfl"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_tx1dd")]
 graph_offset = Vector2(-63.1179, 0)
 
-[node name="Player" type="CharacterBody2D" unique_id=195432165]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
+radius = 1300000.1
+height = 5800000.5
+
+[node name="Player" type="CharacterBody2D" unique_id=195432165 groups=["Player"]]
 z_index = 5
 collision_mask = 16
 motion_mode = 1
 platform_wall_layers = 16
+script = ExtResource("1_7dp3o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=610673345]
 position = Vector2(0, 1)
@@ -541,26 +555,16 @@ script = ExtResource("7_3smsa")
 [node name="HealthComponent" type="Node" parent="." unique_id=1823487372]
 script = ExtResource("8_f1ek2")
 
-[node name="FrontHurtbox" type="Area2D" parent="." unique_id=2088117437]
-scale = Vector2(1e-05, 1e-05)
-collision_layer = 4
-collision_mask = 16
-script = ExtResource("9_tx1dd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontHurtbox" unique_id=1845228693]
-position = Vector2(400000, 0)
-shape = SubResource("CapsuleShape2D_tx1dd")
-disabled = true
-debug_color = Color(0.9019608, 0, 0.7176471, 0.41960785)
-
 [node name="BackHurtbox" type="Area2D" parent="." unique_id=1326023595]
+collision_layer = 64
+collision_mask = 2
 script = ExtResource("9_tx1dd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackHurtbox" unique_id=1447884533]
 position = Vector2(-17, 2)
 shape = SubResource("CapsuleShape2D_7dp3o")
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=163094697]
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=163094697 groups=["PlayerHitbox"]]
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("10_tx1dd")
@@ -572,7 +576,8 @@ debug_color = Color(0.96282727, 0.15661037, 0.3005032, 0.41960785)
 
 [node name="ShieldHitbox" type="Area2D" parent="." unique_id=1882232542]
 collision_layer = 4
-collision_mask = 16
+collision_mask = 8
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldHitbox" unique_id=573091379]
 position = Vector2(10, 3)
@@ -591,4 +596,18 @@ tree_root = SubResource("AnimationNodeStateMachine_bi64h")
 advance_expression_base_node = NodePath("../AnimationPlayer")
 anim_player = NodePath("../AnimationPlayer")
 
+[node name="FrontHurtbox" type="Area2D" parent="." unique_id=2088117437]
+scale = Vector2(1e-05, 1e-05)
+collision_layer = 64
+collision_mask = 2
+script = ExtResource("9_tx1dd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontHurtbox" unique_id=1845228693]
+position = Vector2(400000, 0)
+shape = SubResource("CapsuleShape2D_tx1dd")
+debug_color = Color(0.9019608, 0, 0.7176471, 0.41960785)
+
+[connection signal="area_entered" from="BackHurtbox" to="BackHurtbox" method="_on_area_entered"]
+[connection signal="area_entered" from="HitboxComponent" to="HitboxComponent" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="FrontHurtbox" to="FrontHurtbox" method="_on_area_entered"]
