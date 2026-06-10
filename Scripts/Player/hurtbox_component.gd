@@ -30,6 +30,8 @@ func _on_area_entered(area):
 	can_receive_damage = false
 
 	print("DAMAGE RECEIVED")
+	
+	#GameEffects.spawn_hit_effect(global_position)
 
 	# Emitir señal
 	damaged.emit(

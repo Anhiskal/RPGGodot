@@ -8,6 +8,7 @@ signal attack_1_started
 signal attack_2_started
 signal attack_1_finished
 signal attack_2_finished
+signal attack_hit_confirmed
 
 # =========================================
 # REFERENCES
@@ -104,15 +105,16 @@ func finish_2_attack():
 
 func _on_hit_confirmed():
 
-	print("PLAYER HIT CONFIRMED")
-
+	print("El enemigo fue golpeado")	
+	#EventBus.hit_confirmed.emit()
+	
 	# Emitir señal global
-	#attack_hit_confirmed.emit()
+	attack_hit_confirmed.emit()
 
 	# Evita múltiples hits
 	hitbox.disable_hitbox()
 	
-	# =========================================
+# =========================================
 # COOLDOWN
 # =========================================
 

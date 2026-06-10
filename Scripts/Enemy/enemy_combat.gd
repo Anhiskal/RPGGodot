@@ -29,6 +29,10 @@ func _ready():
 		_on_attack_cooldown_finished
 	)
 	
+	hitbox.hit_confirmed.connect(
+		_on_hit_confirmed
+	)
+	
 # =========================================
 # FUNCIONES
 # =========================================
@@ -66,3 +70,12 @@ func disable_hitbox():
 
 	hitbox.disable_hitbox()	
 	print("HITBOX ENEMY OFF")
+	
+func _on_hit_confirmed():
+
+	print("El jugador fue golpeado")	
+	EventBus.hit_confirmed.emit()
+	
+
+	# Evita múltiples hits
+	hitbox.disable_hitbox()

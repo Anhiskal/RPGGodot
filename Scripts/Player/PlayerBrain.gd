@@ -3,14 +3,14 @@ extends Node
 # =========================================
 # REFERENCES
 # =========================================
-
 @onready var state_machine = $"../StateMachine"
 @onready var movement_component = $"../Components/MovementComponent"
 @onready var combat_component = $"../Components/CombatComponent"
 @onready var block_component = $"../Components/ShieldComponent"
 @onready var input_component = $"../Components/InputComponent"
-@onready var hurtbox = 	$"../Collision/FrontBodyHurtbox"
+@onready var hurtbox = $"../Collision/FrontBodyHurtbox"
 @onready var health_component = $"../Components/HealthComponent"
+@onready var flash_component = $"../Components/FlashComponent"
 
 # =========================================
 # READY
@@ -25,12 +25,11 @@ func _ready():
 # =========================================
 # MAIN LOOP
 # =========================================
-
-func _process(delta):
+func _process(_delta):
 
 	handle_states()
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	handle_movement()
 
 # =========================================
@@ -97,6 +96,8 @@ func _on_damaged(damage : int):
 	health_component.take_damage(
 		damage
 	)
+
+	flash_component.flash()	
 
 	state_machine.change_state(
 		state_machine.State.HURT

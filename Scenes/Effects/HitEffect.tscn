@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ktjukuafuq3h"]
+
+[ext_resource type="Script" uid="uid://mkqvbij70hx5" path="res://Scripts/Particles/autoDestroy.gd" id="1_1xwuc"]
+[ext_resource type="Texture2D" uid="uid://cxusipw1lbj05" path="res://assets/Sprites/Textures/57-575768_game-maker-blood-splatter-particles-png-paintball-png.png" id="2_neqog"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2bl1s"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_max = 120.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+
+[node name="HitEffect" type="Node2D" unique_id=534848852]
+script = ExtResource("1_1xwuc")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2059387661]
+z_index = 6
+emitting = false
+texture = ExtResource("2_neqog")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2bl1s")
