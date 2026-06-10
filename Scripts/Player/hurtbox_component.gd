@@ -1,25 +1,27 @@
 extends Area2D
 
 # =========================================
-# REFERENCES
+# SIGNALS
 # =========================================
 
-@onready var health_component = $"../HealthComponent"
-@onready var state_machine = $"../StateMachine"
+signal damaged(damage : int)
+
+# =========================================
+# VARIABLES
+# =========================================
 
 var can_receive_damage : bool = true
-
 
 # =========================================
 # DETECT DAMAGE
 # =========================================
 
 func _on_area_entered(area):
-	
+
 	print("ALGO ENTRÓ")
 
-	# Verificar grupo PRIMERO
-	if not area.is_in_group("EnemyHitbox"):
+	# Verificar grupo
+	if not area.is_in_group("Hitbox"):
 		return
 
 	if not can_receive_damage:
@@ -27,20 +29,23 @@ func _on_area_entered(area):
 
 	can_receive_damage = false
 
-	print("EL JUGADOR RECIBIÓ DAÑO")
+	print("DAMAGE RECEIVED")
 
-	health_component.take_damage(
+	# Emitir señal
+	damaged.emit(
 		area.damage
 	)
 
-	state_machine.change_state(
-		state_machine.State.HURT
-	)
-
 	start_invulnerability()
-		
+
+# =========================================
+# INVULNERABILITY
+# =========================================
+
 func start_invulnerability():
 
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(
+		0.2
+	).timeout
 
 	can_receive_damage = true

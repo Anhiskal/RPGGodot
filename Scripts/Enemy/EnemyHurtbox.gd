@@ -4,8 +4,8 @@ extends Area2D
 # REFERENCES
 # =========================================
 
-@onready var health_component = $"../HealthComponent"
-@onready var state_machine = $"../EnemyStateMachine"
+@onready var health_component = $"../../Components/HealthComponent"
+@onready var invulnerability_timer = $"../../Timers/InvulnerabilityTimer"
 
 
 var can_receive_damage : bool = true
@@ -15,6 +15,7 @@ var can_receive_damage : bool = true
 # =========================================
 
 func _on_area_entered(area):
+	print("El enemigo recibio daño")
 	
 	if not can_receive_damage:
 		return
@@ -27,17 +28,14 @@ func _on_area_entered(area):
 		# Recibir daño
 		health_component.take_damage(
 			PlayerStatsManager.damage
-		)
-
-		# Estado hurt
-		state_machine.change_state(
-			state_machine.State.HURT
-		)
+		)	
+		
 	
 	start_invulnerability()
 		
 func start_invulnerability():
 
-	await get_tree().create_timer(0.2).timeout
+	invulnerability_timer.start()
 
+	await invulnerability_timer.timeout
 	can_receive_damage = true

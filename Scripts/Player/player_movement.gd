@@ -4,80 +4,60 @@ extends Node
 # REFERENCES
 # =========================================
 # Referencias a otros nodos/componentes
-@onready var player = get_parent()
-@onready var state_machine = $"../StateMachine"
+@export var player : CharacterBody2D
 @onready var shield_component = $"../ShieldComponent"
+@onready var visuals = player.get_node("Visuals")
+@onready var colliders = player.get_node("Collision")
 
 # =========================================
 # VARIABLES
 # =========================================
-
-# Dirección hacia donde mira el personaje
-var facing_direction : int = 1
 # True = mirando derecha
 var facing_right : bool = true
 
 # Movimiento del jugador
 var movement_input : Vector2 = Vector2.ZERO
 
-# =========================================
-# FUNCIONES DE FISICAS
-# =========================================
-func _physics_process(delta):
-
-	move_player()
 
 # =========================================
 # MOVIMIENTO
 # =========================================
-
 func move_player() -> void:
 	
-# Si está muerto/atacando/herido NO mover
-	if state_machine.is_busy():
+	var speed = PlayerStatsManager.speed
 
-		player.velocity = Vector2.ZERO
-		player.move_and_slide()
+	# Reducir velocidad bloqueando
+	if shield_component.is_blocking:
 
-		return
-		
-	# Movimiento
-	player.velocity = movement_input \
-		* PlayerStatsManager.speed * PlayerStatsManager.speed_multiplier
+		speed *= PlayerStatsManager.speed_whit_shield
 
-	# Aplicar movimiento
+	player.velocity = movement_input * speed
+
 	player.move_and_slide()
-	
-	# NO girar o cambiar de estado si está bloqueando
-	if not shield_component.is_blocking:
-		
-		# Cambiar dirección del sprite
-		if movement_input.x > 0 and not facing_right:
-			flip()
 
-		elif  movement_input.x < 0 and facing_right:
-			flip()
-	
-		# Cambiar estados	
-		if movement_input.length() > 0:
-
-			state_machine.change_state(
-				state_machine.State.WALK
-			)
-
-		else:
-
-			state_machine.change_state(
-				state_machine.State.IDLE
-			)
+	handle_flip()
 
 # =========================================
 # GIRAR PERSONAJE
 # =========================================
 
+func handle_flip():
+
+	# NO girar con escudo
+	if shield_component.is_blocking:
+		return
+
+	if movement_input.x > 0 and not facing_right:
+
+		flip()
+
+	elif movement_input.x < 0 and facing_right:
+
+		flip()
+
 func flip() -> void:
 
 	facing_right = !facing_right
 
-	facing_direction *= -1
-	player.scale.x *= -1
+	visuals.scale.x *= -1
+	colliders.scale.x *= -1

@@ -1,20 +1,21 @@
 extends Node
 
 # =========================================
-# VARIABLES
-# =========================================
-
-@export var max_health : int = 100
-
-var current_health : int
-
-# =========================================
 # SIGNALS
 # =========================================
 
 signal damaged(amount)
 signal healed(amount)
 signal died()
+
+
+# =========================================
+# VARIABLES
+# =========================================
+
+@export var max_health : int = 100
+var current_health : int
+
 
 # =========================================
 # READY
@@ -32,15 +33,25 @@ func take_damage(amount : int):
 
 	current_health -= amount
 
-	damaged.emit(amount)
-
-	print(owner.name, " recibió daño : ", amount)
+	print(
+		"CURRENT HP: ",
+		current_health
+	)
+	
+	#print(owner.name, " recibió daño : ", amount)
+	damaged.emit(amount)	
 
 	if current_health <= 0:
+		die()
+		
+		
+# =========================================
+# DEATH
+# =========================================
 
-		current_health = 0
-
-		died.emit()
+func die():
+	current_health = 0
+	died.emit()
 
 # =========================================
 # HEAL

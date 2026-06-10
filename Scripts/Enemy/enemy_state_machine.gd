@@ -1,35 +1,23 @@
 extends Node
 
-# =========================================
-# STATES
-# =========================================
 enum State {
 	IDLE,
-	PATROL,
 	CHASE,
 	ATTACK,
 	HURT,
-	DEAD,
+	DEAD
 }
 
-# Estado actual
-var current_state : State = State.IDLE
-
-# =========================================
-# REFERENCES
-# =========================================
-@onready var enemy = get_parent()
-@onready var animation_tree = enemy.get_node("AnimationTree")
-@onready var playback = animation_tree["parameters/playback"]
+var current_state : State
 
 
-# =========================================
-# CHANGE STATE
-# =========================================
+@onready var animation_controller = (
+	$"../AnimationController"
+)
+
 func change_state(new_state : State):
 
-	if current_state == new_state \
-		and current_state != State.ATTACK:
+	if current_state == new_state:
 		return
 
 	current_state = new_state
@@ -37,56 +25,21 @@ func change_state(new_state : State):
 	match current_state:
 
 		State.IDLE:
-			enter_idle()
-
-		State.PATROL:
-			enter_patrol()
+			animation_controller.play_idle()
 
 		State.CHASE:
-			enter_chase()
+			animation_controller.play_run()
 
 		State.ATTACK:
-			enter_attack()
+			animation_controller.play_attack()
 
 		State.HURT:
-			enter_hurt()
+			animation_controller.play_hurt()
 
 		State.DEAD:
-			enter_dead()
-
-# =========================================
-# STATE FUNCTIONS
-# =========================================
-func enter_idle():
-
-	playback.travel("Idle")
-
-func enter_patrol():
-
-	playback.travel("Run")
-
-func enter_chase():
-
-	pass
-
-func enter_attack():
-
-	playback.travel("Attack_1")
-
-func enter_hurt():
-
-	#playback.travel("Hurt")
-	pass
-
-func enter_dead():
-
-	#playback.travel("Dead")
-	pass
+			animation_controller.play_dead()
 
 
-# =========================================
-# HELPERS
-# =========================================
 func is_busy() -> bool:
 
 	return current_state == State.ATTACK \

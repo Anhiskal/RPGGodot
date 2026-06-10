@@ -24,6 +24,8 @@ PlayerStatsManager="*uid://i0x471k1uynp"
 Player=""
 PlayerHitbox=""
 EnemyHitbox=""
+Hitbox=""
+Hurtbox=""
 
 [input]
 
