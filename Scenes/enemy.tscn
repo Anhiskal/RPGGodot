@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bask8aiit4rlm"]
 
-[ext_resource type="Script" uid="uid://iyei0xdujjso" path="res://Scripts/Enemy/Enemy.gd" id="1_56vhr"]
+[ext_resource type="Script" uid="uid://c84f5pp35il8i" path="res://Scripts/Enemy/enemy_brain.gd" id="1_56vhr"]
 [ext_resource type="Texture2D" uid="uid://cxuxik3w2neo8" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack1.png" id="1_287tu"]
 [ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Scripts/Enemy/enemy_state_machine.gd" id="1_0830c"]
 [ext_resource type="Script" uid="uid://dsdoumw0nnuuh" path="res://Scripts/Enemy/enemy_movement.gd" id="1_ghaa6"]
@@ -8,21 +8,11 @@
 [ext_resource type="Script" uid="uid://2salhof20ye4" path="res://Scripts/Enemy/detection_area.gd" id="3_1dp5w"]
 [ext_resource type="Texture2D" uid="uid://de4514gkciri5" path="res://assets/Sprites/Enemies/Reds/Warrior_Idle.png" id="3_ghaa6"]
 [ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Scripts/Enemy/enemy_combat.gd" id="3_po0sg"]
+[ext_resource type="Script" uid="uid://c2jeujfcioseb" path="res://Scripts/Enemy/enemy_animation_controller.gd" id="3_ta2yt"]
 [ext_resource type="Texture2D" uid="uid://cw0vvkskifks" path="res://assets/Sprites/Enemies/Reds/Warrior_Run.png" id="4_1dp5w"]
 [ext_resource type="Script" uid="uid://cf0dtcmwxuh8x" path="res://Scripts/Player/health_component.gd" id="4_haro7"]
 [ext_resource type="Script" uid="uid://bmy7gikha0lfx" path="res://Scripts/Enemy/EnemyHurtbox.gd" id="6_po0sg"]
 [ext_resource type="Script" uid="uid://bqtsiwsb1yngq" path="res://Scripts/Player/hitbox_component.gd" id="7_haro7"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
-radius = 199.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0830c"]
-radius = 19.0
-height = 64.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ghaa6"]
-radius = 38.0
-height = 96.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_auwsv"]
 atlas = ExtResource("1_287tu")
@@ -207,7 +197,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("Visuals/AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -219,7 +209,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/path = NodePath("Visuals/AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -231,7 +221,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("EnemyCombat")
+tracks/2/path = NodePath("Components/CombatComponent")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -252,7 +242,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("Visuals/AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -264,7 +254,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/path = NodePath("Visuals/AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -276,7 +266,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("EnemyCombat")
+tracks/2/path = NodePath("Components/CombatComponent")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -298,7 +288,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("Visuals/AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -310,7 +300,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/path = NodePath("Visuals/AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -325,7 +315,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("Visuals/AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -337,7 +327,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/path = NodePath("Visuals/AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -354,7 +344,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("Visuals/AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -366,7 +356,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/path = NodePath("Visuals/AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -423,66 +413,101 @@ states/Run/node = SubResource("AnimationNodeAnimation_a6sir")
 states/Run/position = Vector2(523, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_8ej4m"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_bwheg"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_iol0x"), "Idle", "Attack_1", SubResource("AnimationNodeStateMachineTransition_ofqcr"), "Idle", "Attack_2", SubResource("AnimationNodeStateMachineTransition_nus6a")]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
+radius = 199.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0830c"]
+radius = 19.0
+height = 64.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ghaa6"]
+radius = 38.0
+height = 96.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=1492723029]
 z_index = 5
-script = ExtResource("1_56vhr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1372832520]
 
-[node name="EnemyMovement" type="Node" parent="." unique_id=209369478]
-script = ExtResource("1_ghaa6")
+[node name="Brain" type="Node" parent="." unique_id=417424785]
+script = ExtResource("1_56vhr")
 
-[node name="EnemyStateMachine" type="Node" parent="." unique_id=530269349]
+[node name="StateMachine" type="Node" parent="." unique_id=530269349]
 script = ExtResource("1_0830c")
 
-[node name="EnemyCombat" type="Node" parent="." unique_id=128548139]
+[node name="AnimationController" type="Node" parent="." unique_id=116998875]
+script = ExtResource("3_ta2yt")
+
+[node name="Navigation" type="Node" parent="." unique_id=716029298]
+
+[node name="Components" type="Node" parent="." unique_id=900172494]
+
+[node name="MovementComponent" type="Node" parent="Components" unique_id=209369478]
+script = ExtResource("1_ghaa6")
+
+[node name="CombatComponent" type="Node" parent="Components" unique_id=128548139]
 script = ExtResource("3_po0sg")
 
-[node name="HealthComponent" type="Node" parent="." unique_id=1292210971]
+[node name="HealthComponent" type="Node" parent="Components" unique_id=1292210971]
 script = ExtResource("4_haro7")
 
-[node name="DetectionArea" type="Area2D" parent="." unique_id=1976995812]
+[node name="DetectionComponent" type="Node" parent="Components" unique_id=1443080752]
+
+[node name="Timers" type="Node" parent="." unique_id=931332810]
+
+[node name="AttackCooldownTimer" type="Timer" parent="Timers" unique_id=1254728820]
+
+[node name="InvulnerabilityTimer" type="Timer" parent="Timers" unique_id=584698389]
+wait_time = 0.2
+
+[node name="Visuals" type="Node2D" parent="." unique_id=772987443]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=1776215993]
+sprite_frames = SubResource("SpriteFrames_bx1xr")
+animation = &"Idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals" unique_id=758249329]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_q0iv8")
+
+[node name="AnimationTree" type="AnimationTree" parent="Visuals" unique_id=1096599213]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_imgxb")
+advance_expression_base_node = NodePath("../AnimationPlayer")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Collision" type="Node2D" parent="." unique_id=33089711]
+
+[node name="DetectionComponent" type="Area2D" parent="Collision" unique_id=1976995812]
 collision_layer = 32
 script = ExtResource("3_1dp5w")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1059945784]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/DetectionComponent" unique_id=1059945784]
 position = Vector2(87, 0)
 shape = SubResource("CircleShape2D_287tu")
 debug_color = Color(0.15389335, 0.6356687, 0.32733697, 0.41960785)
 
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1123942998 groups=["Hurtbox"]]
+[node name="HurtboxComponent" type="Area2D" parent="Collision" unique_id=1123942998 groups=["Hurtbox"]]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("6_po0sg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=860207421]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/HurtboxComponent" unique_id=860207421]
 shape = SubResource("CapsuleShape2D_0830c")
 debug_color = Color(0.015686275, 0.6, 0.7019608, 1)
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=14817910 groups=["EnemyHitbox", "Hitbox"]]
+[node name="SwordHitbox" type="Area2D" parent="Collision" unique_id=14817910 groups=["EnemyHitbox", "Hitbox"]]
 collision_layer = 2
 collision_mask = 64
 script = ExtResource("7_haro7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1730281102]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/SwordHitbox" unique_id=1730281102]
 light_mask = 0
 position = Vector2(27, 12)
 shape = SubResource("CapsuleShape2D_ghaa6")
 debug_color = Color(0.9764706, 0, 0, 0.41960785)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1776215993]
-sprite_frames = SubResource("SpriteFrames_bx1xr")
-animation = &"Idle"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=758249329]
-libraries/ = SubResource("AnimationLibrary_q0iv8")
-
-[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1096599213]
-tree_root = SubResource("AnimationNodeStateMachine_imgxb")
-advance_expression_base_node = NodePath("../AnimationPlayer")
-anim_player = NodePath("../AnimationPlayer")
-
-[connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
-[connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]
-[connection signal="area_entered" from="HurtboxComponent" to="HurtboxComponent" method="_on_area_entered"]
-[connection signal="area_entered" from="HitboxComponent" to="HitboxComponent" method="_on_area_entered"]
+[connection signal="body_entered" from="Collision/DetectionComponent" to="Collision/DetectionComponent" method="_on_body_entered"]
+[connection signal="body_exited" from="Collision/DetectionComponent" to="Collision/DetectionComponent" method="_on_body_exited"]
+[connection signal="area_entered" from="Collision/HurtboxComponent" to="Collision/HurtboxComponent" method="_on_area_entered"]
+[connection signal="area_entered" from="Collision/SwordHitbox" to="Collision/SwordHitbox" method="_on_area_entered"]

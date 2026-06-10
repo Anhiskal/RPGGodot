@@ -1,33 +1,23 @@
 extends Area2D
+
 # =========================================
 # REFERENCES
 # =========================================
-@onready var movement = $"../EnemyMovement"
-@onready var state_machine = $"../EnemyStateMachine"
+signal target_detected(target)
+signal target_lost()
 
-# =========================================
-# DETECT COLLITIONS
-# =========================================
+
 func _on_body_entered(body):
-	
+	#Cuando un collider entre
 	if body.is_in_group("Player"):
-		#Si la colicion tiene el grupo del jugador
+		#Si posee el grupo Jugador
 		
-		movement.target = body
+		target_detected.emit(body)
 
-		state_machine.change_state(
-			state_machine.State.CHASE
-		)
 
-# =========================================
-# DETECT EXIT COLLITIONS
-# =========================================
 func _on_body_exited(body):
-
+	#Cuando un collider sale
 	if body.is_in_group("Player"):
-		#Si la colision saliente tiene el grupo del jugador
-		movement.target = null
+		#Si posee el grupo jugador
 
-		state_machine.change_state(
-			state_machine.State.IDLE
-		)
+		target_lost.emit()

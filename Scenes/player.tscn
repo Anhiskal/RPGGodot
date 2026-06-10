@@ -558,6 +558,13 @@ script = ExtResource("4_ukyrk")
 [node name="HealthComponent" type="Node" parent="Components" unique_id=1823487372]
 script = ExtResource("8_f1ek2")
 
+[node name="Timers" type="Node" parent="." unique_id=437822720]
+
+[node name="AttackCooldownTimer" type="Timer" parent="Timers" unique_id=1121378814]
+
+[node name="InvulnerabilityTimer" type="Timer" parent="Timers" unique_id=2048584708]
+wait_time = 0.2
+
 [node name="Visuals" type="Node2D" parent="." unique_id=183832035]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=1459712440]

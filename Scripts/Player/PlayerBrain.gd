@@ -9,14 +9,8 @@ extends Node
 @onready var combat_component = $"../Components/CombatComponent"
 @onready var block_component = $"../Components/ShieldComponent"
 @onready var input_component = $"../Components/InputComponent"
-
-@onready var hurtbox = (
-	$"../Collision/FrontBodyHurtbox"
-)
-
-@onready var health_component = (
-	$"../Components/HealthComponent"
-)
+@onready var hurtbox = 	$"../Collision/FrontBodyHurtbox"
+@onready var health_component = $"../Components/HealthComponent"
 
 # =========================================
 # READY
@@ -35,6 +29,9 @@ func _ready():
 func _process(delta):
 
 	handle_states()
+	
+func _physics_process(delta):
+	handle_movement()
 
 # =========================================
 # STATE CONTROL
@@ -81,6 +78,14 @@ func handle_states():
 		state_machine.change_state(
 			state_machine.State.IDLE
 		)
+		
+func handle_movement():
+
+	# Estados que NO pueden moverse
+	if state_machine.is_busy():
+		return
+
+	movement_component.move_player()
 		
 # =========================================
 # DAMAGE

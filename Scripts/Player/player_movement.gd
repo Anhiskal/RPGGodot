@@ -18,17 +18,10 @@ var facing_right : bool = true
 # Movimiento del jugador
 var movement_input : Vector2 = Vector2.ZERO
 
-# =========================================
-# FUNCIONES DE FISICAS
-# =========================================
-func _physics_process(delta):
-
-	move_player()
 
 # =========================================
 # MOVIMIENTO
 # =========================================
-
 func move_player() -> void:
 	
 	var speed = PlayerStatsManager.speed
