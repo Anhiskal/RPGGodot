@@ -4,7 +4,6 @@ extends Node
 # REFERENCES EXPORT
 # =========================================
 @export var enemy_data : EnemyData
-@export var bloodParticle : PackedScene
 
 # =========================================
 # REFERENCES
@@ -19,6 +18,7 @@ extends Node
 @onready var flash_component = $"../Components/FlashComponent"
 @onready var knockback = $"../Components/KnockbackComponent"
 @onready var effects = $"../Components/EffectsComponent"
+@onready var sound = $"../Components/SoundComponent"
 
 # =========================================
 # VARIABLES
@@ -108,11 +108,19 @@ func _on_attack_finished():
 
 func _on_died():
 
+	#print("EL ENEMIGO MURIO")	
 	combat.cancel_attack()
-	print("EL ENEMIGO MURIO")
+	sound.play_hurt()
+	
+	await get_tree().create_timer(
+		enemy_data.death_sound_delay
+	).timeout
+	
+	sound.play_death()
+	
 	state_machine.change_state(
 		state_machine.State.DEAD
-	)
+	)	
 	
 	effects.play_death_fx()	
 
@@ -126,18 +134,21 @@ func _on_damaged(hit_data : HitData):
 	health.take_damage(
 		hit_data.damage
 	)
-
+	
 	knockback.apply_knockback(
 		hit_data
 	)
+
+func _on_applited_damage(_amoun : int):
 	
 	flash_component.flash()
-	
 	effects.play_hit_fx()
+	sound.play_hurt()
 
 	state_machine.change_state(
 		state_machine.State.HURT
 	)
+	
 	
 func _destroy_enemy():
 	
@@ -159,6 +170,10 @@ func conect_all_signals():
 
 	combat.attack_finished.connect(
 		_on_attack_finished
+	)
+	
+	health.damaged.connect(
+		_on_applited_damage
 	)
 
 	health.died.connect(

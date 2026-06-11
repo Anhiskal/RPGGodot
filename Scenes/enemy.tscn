@@ -18,6 +18,9 @@
 [ext_resource type="Script" uid="uid://vs5rxl5kny3c" path="res://Scripts/VisualEfects/flash_component.gd" id="7_vt4ob"]
 [ext_resource type="Script" uid="uid://c0xr3118utnj7" path="res://Scripts/Componets/knockback_component.gd" id="8_hgeoe"]
 [ext_resource type="Script" uid="uid://1n6ewougaero" path="res://Scripts/Componets/effects_component.gd" id="10_5xdhn"]
+[ext_resource type="Script" uid="uid://ktrdxoxjghtx" path="res://Scripts/Componets/sound_component.gd" id="11_qjcj6"]
+[ext_resource type="AudioStream" uid="uid://cktd0gr8scdu3" path="res://assets/Sounds/gamePlay/sword-hit.mp3" id="12_4ycey"]
+[ext_resource type="AudioStream" uid="uid://6twlnitjl7db" path="res://assets/Sounds/gamePlay/game-character-140506.mp3" id="13_8cim4"]
 [ext_resource type="PackedScene" uid="uid://ktjukuafuq3h" path="res://Scenes/Effects/HitEffect.tscn" id="13_scl1n"]
 [ext_resource type="PackedScene" uid="uid://hpfpxfcpjd53" path="res://Scenes/death_particles.tscn" id="19_dhkrs"]
 
@@ -473,6 +476,11 @@ script = ExtResource("8_hgeoe")
 
 [node name="EffectsComponent" type="Node" parent="Components" unique_id=1827972587]
 script = ExtResource("10_5xdhn")
+
+[node name="SoundComponent" type="Node" parent="Components" unique_id=1974465392]
+script = ExtResource("11_qjcj6")
+hurt_sound = ExtResource("12_4ycey")
+death_sound = ExtResource("13_8cim4")
 
 [node name="Timers" type="Node" parent="." unique_id=931332810]
 

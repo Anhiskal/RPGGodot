@@ -21,3 +21,8 @@ class_name EnemyData
 # VISUALS
 # =========================================
 @export var hurt_flash_time : float = 0.1
+
+# =========================================
+# SOUNDS
+# =========================================
+@export var death_sound_delay : float = 0.05

@@ -36,5 +36,4 @@ func play_hurt():
 
 func play_dead():
 
-	#playback.travel("Dead")
-	pass
+	playback.travel("Idle")	
