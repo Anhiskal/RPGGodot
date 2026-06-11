@@ -1,10 +1,12 @@
 extends Area2D
 
 # =========================================
+# SIGNALS
+# =========================================
+signal hit_received(hit_data)
+# =========================================
 # REFERENCES
 # =========================================
-
-@onready var health_component = $"../../Components/HealthComponent"
 @onready var invulnerability_timer = $"../../Timers/InvulnerabilityTimer"
 
 
@@ -14,24 +16,22 @@ var can_receive_damage : bool = true
 # DETECT DAMAGE
 # =========================================
 
-func _on_area_entered(area):
-	print("El enemigo recibio daño")
+func _on_area_entered(area):	
 	
 	if not can_receive_damage:
 		return
 		
-	can_receive_damage = false
-	
 	# Verificar si es hitbox del jugador
-	if area.is_in_group("PlayerHitbox"):
+	if not area.is_in_group("PlayerHitbox"):
+		return
+			
+	can_receive_damage = false	
 
-		# Recibir daño
-		health_component.take_damage(
-			PlayerStatsManager.damage
-		)	
-		
+	# Emite el daño			
+	hit_received.emit(area.hit_data)	
 	
 	start_invulnerability()
+	
 		
 func start_invulnerability():
 

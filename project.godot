@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerStatsManager="*uid://i0x471k1uynp"
+GameEffects="*uid://bhaunjeondfrn"
+EventBus="*uid://bfe31n10mx0mj"
 
 [global_group]
 

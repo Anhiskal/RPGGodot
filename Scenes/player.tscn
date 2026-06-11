@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c3brhapcjrnvs"]
 
 [ext_resource type="Texture2D" uid="uid://cfwvuhmdb65mj" path="res://assets/Sprites/Player/Warrior_Attack1.png" id="1_fkybt"]
+[ext_resource type="Script" uid="uid://byeah3518yg5t" path="res://Scripts/Camara/camera_controller.gd" id="1_igrcy"]
 [ext_resource type="Script" uid="uid://dosodfypefbbf" path="res://Scripts/Player/input_component.gd" id="1_pu2lt"]
 [ext_resource type="Script" uid="uid://dbrbbhocqoav7" path="res://Scripts/Player/player_movement.gd" id="1_x3wgy"]
 [ext_resource type="Script" uid="uid://ofjsxxev56rs" path="res://Scripts/Player/PlayerBrain.gd" id="2_h4iuc"]
@@ -13,12 +14,18 @@
 [ext_resource type="Script" uid="uid://cbekl1ci7symb" path="res://Scripts/Player/state_machine.gd" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://cf0dtcmwxuh8x" path="res://Scripts/Player/health_component.gd" id="8_f1ek2"]
 [ext_resource type="Script" uid="uid://4ff6ko2q5whv" path="res://Scripts/Player/combat_component.gd" id="8_gymyn"]
+[ext_resource type="Shader" uid="uid://nv76qxuuwfej" path="res://Shaders/hit_flash.gdshader" id="9_fd4e3"]
+[ext_resource type="Script" uid="uid://vs5rxl5kny3c" path="res://Scripts/VisualEfects/flash_component.gd" id="9_qqcod"]
 [ext_resource type="Script" uid="uid://bb3w8pq8t2jvi" path="res://Scripts/Player/hurtbox_component.gd" id="9_tx1dd"]
 [ext_resource type="Script" uid="uid://bqtsiwsb1yngq" path="res://Scripts/Player/hitbox_component.gd" id="10_tx1dd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fd4e3"]
 radius = 16.0
 height = 52.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qqcod"]
+shader = ExtResource("9_fd4e3")
+shader_parameter/flash_amount = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3wgy"]
 atlas = ExtResource("1_fkybt")
@@ -526,6 +533,9 @@ collision_mask = 16
 motion_mode = 1
 platform_wall_layers = 16
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1068376735]
+script = ExtResource("1_igrcy")
+
 [node name="Brain" type="Node" parent="." unique_id=1633016118]
 script = ExtResource("2_h4iuc")
 
@@ -558,6 +568,9 @@ script = ExtResource("4_ukyrk")
 [node name="HealthComponent" type="Node" parent="Components" unique_id=1823487372]
 script = ExtResource("8_f1ek2")
 
+[node name="FlashComponent" type="Node" parent="Components" unique_id=1656840156]
+script = ExtResource("9_qqcod")
+
 [node name="Timers" type="Node" parent="." unique_id=437822720]
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers" unique_id=1121378814]
@@ -568,6 +581,7 @@ wait_time = 0.2
 [node name="Visuals" type="Node2D" parent="." unique_id=183832035]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=1459712440]
+material = SubResource("ShaderMaterial_qqcod")
 sprite_frames = SubResource("SpriteFrames_yh6i2")
 animation = &"Idle"
 
@@ -601,6 +615,8 @@ script = ExtResource("10_tx1dd")
 position = Vector2(31, 8)
 shape = SubResource("CapsuleShape2D_ukyrk")
 debug_color = Color(0.96282727, 0.15661037, 0.3005032, 0.41960785)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Collision/SwordHitbox" unique_id=208342877]
 
 [node name="ShieldHitbox" type="Area2D" parent="Collision" unique_id=1882232542]
 collision_layer = 4

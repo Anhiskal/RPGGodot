@@ -13,7 +13,7 @@ extends Node
 # PROCESS
 # =========================================
 
-func _process(delta):
+func _process(_delta):
 	
 	handle_movement_input()
 	handle_combat_input()

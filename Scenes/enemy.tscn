@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Scripts/Enemy/enemy_state_machine.gd" id="1_0830c"]
 [ext_resource type="Script" uid="uid://dsdoumw0nnuuh" path="res://Scripts/Enemy/enemy_movement.gd" id="1_ghaa6"]
 [ext_resource type="Texture2D" uid="uid://cu17r70ddh4am" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack2.png" id="2_0830c"]
+[ext_resource type="Resource" uid="uid://dvlvc52rf1idr" path="res://Scripts/EnemyData/RedKnight.tres" id="2_tk7xo"]
 [ext_resource type="Script" uid="uid://2salhof20ye4" path="res://Scripts/Enemy/detection_area.gd" id="3_1dp5w"]
 [ext_resource type="Texture2D" uid="uid://de4514gkciri5" path="res://assets/Sprites/Enemies/Reds/Warrior_Idle.png" id="3_ghaa6"]
 [ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Scripts/Enemy/enemy_combat.gd" id="3_po0sg"]
@@ -13,6 +14,27 @@
 [ext_resource type="Script" uid="uid://cf0dtcmwxuh8x" path="res://Scripts/Player/health_component.gd" id="4_haro7"]
 [ext_resource type="Script" uid="uid://bmy7gikha0lfx" path="res://Scripts/Enemy/EnemyHurtbox.gd" id="6_po0sg"]
 [ext_resource type="Script" uid="uid://bqtsiwsb1yngq" path="res://Scripts/Player/hitbox_component.gd" id="7_haro7"]
+[ext_resource type="Shader" uid="uid://nv76qxuuwfej" path="res://Shaders/hit_flash.gdshader" id="7_m4x7e"]
+[ext_resource type="Script" uid="uid://vs5rxl5kny3c" path="res://Scripts/VisualEfects/flash_component.gd" id="7_vt4ob"]
+[ext_resource type="Script" uid="uid://c0xr3118utnj7" path="res://Scripts/Componets/knockback_component.gd" id="8_hgeoe"]
+[ext_resource type="Script" uid="uid://1n6ewougaero" path="res://Scripts/Componets/effects_component.gd" id="10_5xdhn"]
+[ext_resource type="PackedScene" uid="uid://ktjukuafuq3h" path="res://Scenes/Effects/HitEffect.tscn" id="13_scl1n"]
+[ext_resource type="PackedScene" uid="uid://hpfpxfcpjd53" path="res://Scenes/death_particles.tscn" id="19_dhkrs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
+radius = 199.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0830c"]
+radius = 19.0
+height = 64.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ghaa6"]
+radius = 38.0
+height = 96.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vt4ob"]
+shader = ExtResource("7_m4x7e")
+shader_parameter/flash_amount = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_auwsv"]
 atlas = ExtResource("1_287tu")
@@ -229,7 +251,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"enable_hitbox"
+"method": &"attack"
 }, {
 "args": [],
 "method": &"finish_attack"
@@ -413,17 +435,6 @@ states/Run/node = SubResource("AnimationNodeAnimation_a6sir")
 states/Run/position = Vector2(523, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_8ej4m"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_bwheg"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_iol0x"), "Idle", "Attack_1", SubResource("AnimationNodeStateMachineTransition_ofqcr"), "Idle", "Attack_2", SubResource("AnimationNodeStateMachineTransition_nus6a")]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
-radius = 199.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0830c"]
-radius = 19.0
-height = 64.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ghaa6"]
-radius = 38.0
-height = 96.0
-
 [node name="Enemy" type="CharacterBody2D" unique_id=1492723029]
 z_index = 5
 
@@ -431,6 +442,7 @@ z_index = 5
 
 [node name="Brain" type="Node" parent="." unique_id=417424785]
 script = ExtResource("1_56vhr")
+enemy_data = ExtResource("2_tk7xo")
 
 [node name="StateMachine" type="Node" parent="." unique_id=530269349]
 script = ExtResource("1_0830c")
@@ -453,28 +465,21 @@ script = ExtResource("4_haro7")
 
 [node name="DetectionComponent" type="Node" parent="Components" unique_id=1443080752]
 
+[node name="FlashComponent" type="Node" parent="Components" unique_id=941101443]
+script = ExtResource("7_vt4ob")
+
+[node name="KnockbackComponent" type="Node" parent="Components" unique_id=1616923639]
+script = ExtResource("8_hgeoe")
+
+[node name="EffectsComponent" type="Node" parent="Components" unique_id=1827972587]
+script = ExtResource("10_5xdhn")
+
 [node name="Timers" type="Node" parent="." unique_id=931332810]
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers" unique_id=1254728820]
 
 [node name="InvulnerabilityTimer" type="Timer" parent="Timers" unique_id=584698389]
 wait_time = 0.2
-
-[node name="Visuals" type="Node2D" parent="." unique_id=772987443]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=1776215993]
-sprite_frames = SubResource("SpriteFrames_bx1xr")
-animation = &"Idle"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals" unique_id=758249329]
-root_node = NodePath("../..")
-libraries/ = SubResource("AnimationLibrary_q0iv8")
-
-[node name="AnimationTree" type="AnimationTree" parent="Visuals" unique_id=1096599213]
-root_node = NodePath("../..")
-tree_root = SubResource("AnimationNodeStateMachine_imgxb")
-advance_expression_base_node = NodePath("../AnimationPlayer")
-anim_player = NodePath("../AnimationPlayer")
 
 [node name="Collision" type="Node2D" parent="." unique_id=33089711]
 
@@ -506,6 +511,30 @@ light_mask = 0
 position = Vector2(27, 12)
 shape = SubResource("CapsuleShape2D_ghaa6")
 debug_color = Color(0.9764706, 0, 0, 0.41960785)
+
+[node name="Visuals" type="Node2D" parent="." unique_id=772987443]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals" unique_id=1776215993]
+modulate = Color(18.892157, 0, 0, 1)
+material = SubResource("ShaderMaterial_vt4ob")
+sprite_frames = SubResource("SpriteFrames_bx1xr")
+animation = &"Idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals" unique_id=758249329]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_q0iv8")
+
+[node name="AnimationTree" type="AnimationTree" parent="Visuals" unique_id=1096599213]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_imgxb")
+advance_expression_base_node = NodePath("../AnimationPlayer")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Particles" type="Node2D" parent="." unique_id=1012284335]
+
+[node name="HitParticles" parent="Particles" unique_id=1430462803 instance=ExtResource("13_scl1n")]
+
+[node name="DeathParticles" parent="Particles" unique_id=855056359 instance=ExtResource("19_dhkrs")]
 
 [connection signal="body_entered" from="Collision/DetectionComponent" to="Collision/DetectionComponent" method="_on_body_entered"]
 [connection signal="body_exited" from="Collision/DetectionComponent" to="Collision/DetectionComponent" method="_on_body_exited"]

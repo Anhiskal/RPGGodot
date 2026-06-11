@@ -1,6 +1,12 @@
 extends Node
 
 # =========================================
+# REFERENCES EXPORT
+# =========================================
+@export var enemy_data : EnemyData
+@export var bloodParticle : PackedScene
+
+# =========================================
 # REFERENCES
 # =========================================
 @onready var enemy = get_parent()
@@ -9,38 +15,25 @@ extends Node
 @onready var combat = $"../Components/CombatComponent"
 @onready var detection = $"../Collision/DetectionComponent"
 @onready var health = $"../Components/HealthComponent"
+@onready var hurtbox = $"../Collision/HurtboxComponent"
+@onready var flash_component = $"../Components/FlashComponent"
+@onready var knockback = $"../Components/KnockbackComponent"
+@onready var effects = $"../Components/EffectsComponent"
 
 # =========================================
 # VARIABLES
 # =========================================
 var target : Node2D = null
-@export var attack_range : float = 80.0
+var attack_range : float
 
 
 func _ready():
 
-	detection.target_detected.connect(
-		_on_target_detected
-	)
-
-	detection.target_lost.connect(
-		_on_target_lost
-	)
-
-	combat.attack_started.connect(
-		_on_attack_started
-	)
-
-	combat.attack_finished.connect(
-		_on_attack_finished
-	)
-
-	health.died.connect(
-		_on_died
-	)
+	conect_all_signals()	
+	config_enemy_stats()
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 
 	handle_ai()
 
@@ -48,6 +41,9 @@ func _physics_process(delta):
 func handle_ai():
 
 	if state_machine.current_state == state_machine.State.DEAD:
+		return
+		
+	if knockback.is_knocked:
 		return
 
 	if target == null:
@@ -74,6 +70,7 @@ func handle_ai():
 
 		return
 
+	combat.cancel_attack()
 	movement.move_to_target()
 
 	state_machine.change_state(
@@ -111,6 +108,74 @@ func _on_attack_finished():
 
 func _on_died():
 
+	combat.cancel_attack()
+	print("EL ENEMIGO MURIO")
 	state_machine.change_state(
 		state_machine.State.DEAD
 	)
+	
+	effects.play_death_fx()	
+
+# =========================================
+# DAMAGE
+# =========================================
+func _on_damaged(hit_data : HitData):
+
+	combat.cancel_attack()
+	#print("Enemigo recibio daño : ", hit_data.damage)
+	health.take_damage(
+		hit_data.damage
+	)
+
+	knockback.apply_knockback(
+		hit_data
+	)
+	
+	flash_component.flash()
+	
+	effects.play_hit_fx()
+
+	state_machine.change_state(
+		state_machine.State.HURT
+	)
+	
+func _destroy_enemy():
+	
+	enemy.call_deferred("queue_free")
+	
+func conect_all_signals():
+	
+	detection.target_detected.connect(
+		_on_target_detected
+	)
+
+	detection.target_lost.connect(
+		_on_target_lost
+	)
+
+	combat.attack_started.connect(
+		_on_attack_started
+	)
+
+	combat.attack_finished.connect(
+		_on_attack_finished
+	)
+
+	health.died.connect(
+		_on_died
+	)
+	
+	hurtbox.hit_received.connect(
+		_on_damaged
+	)
+	
+	effects.death_fx_finished.connect(
+		_destroy_enemy
+	)
+	
+func config_enemy_stats():
+	#Data drive del enemigo
+	health.setup(enemy_data.max_health)
+	combat.setup(enemy_data.attack_damage, enemy_data.knockback_force)
+	movement.setup(enemy_data.move_speed)
+	attack_range = enemy_data.attack_range

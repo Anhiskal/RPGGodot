@@ -3,7 +3,6 @@ extends Node
 # =========================================
 # SIGNALS
 # =========================================
-
 signal damaged(amount)
 signal healed(amount)
 signal died()
@@ -12,29 +11,18 @@ signal died()
 # =========================================
 # VARIABLES
 # =========================================
-
-@export var max_health : int = 100
+var max_health : int
 var current_health : int
-
-
-# =========================================
-# READY
-# =========================================
-
-func _ready():
-
-	current_health = max_health
 
 # =========================================
 # DAMAGE
 # =========================================
-
 func take_damage(amount : int):
 
 	current_health -= amount
 
-	print(
-		"CURRENT HP: ",
+	print(owner.name,
+		" CURRENT HP: ",
 		current_health
 	)
 	
@@ -48,7 +36,6 @@ func take_damage(amount : int):
 # =========================================
 # DEATH
 # =========================================
-
 func die():
 	current_health = 0
 	died.emit()
@@ -56,7 +43,6 @@ func die():
 # =========================================
 # HEAL
 # =========================================
-
 func heal(amount : int):
 
 	current_health += amount
@@ -65,3 +51,7 @@ func heal(amount : int):
 		current_health = max_health
 
 	healed.emit(amount)
+	
+func setup(_max_health : int):
+	max_health = _max_health
+	current_health = max_health
