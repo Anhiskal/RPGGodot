@@ -17,9 +17,11 @@ extends Node
 # =========================================
 func _ready():
 	# Conectar señal del hurtbox
-	hurtbox.damaged.connect(
+	hurtbox.hit_received.connect(
 		_on_damaged
 	)
+	
+	config_player_stats()
 
 
 # =========================================
@@ -90,11 +92,11 @@ func handle_movement():
 # DAMAGE
 # =========================================
 
-func _on_damaged(damage : int):
+func _on_damaged(hit_data : HitData):
 
-	print("Jugador recibio daño : ", damage)
+	#print("Jugador recibio daño : ", hit_data.damage)
 	health_component.take_damage(
-		damage
+		hit_data.damage
 	)
 
 	flash_component.flash()	
@@ -112,3 +114,6 @@ func _on_died():
 	state_machine.change_state(
 		state_machine.State.DEAD
 	)
+	
+func config_player_stats():
+	health_component.setup(PlayerStatsManager.max_health)

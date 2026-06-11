@@ -3,36 +3,31 @@ class_name player_stats_manager
 # =========================================
 # COMBAT STATS
 # =========================================
-
-@export var damage : int = 20
-@export var weapon_range : float = 1.5
-var knockback_force : float = 250.0
+var damage : int = 20
+var weapon_range : float = 1.5
+var knockback_force : float = 500.0
 var knockback_time : float = 0.2
 var stun_time : float = 0.5
-@export var cooldown_attack : float = 1.5
+var cooldown_attack : float = 1.5
 var current_time_attack : float = 0.0
 
 
 # =========================================
 # MOVEMENT STATS
 # =========================================
-
-@export var speed_multiplier : float = 1.0
-@export var speed_whit_shield : float = 0.4
-@export var speed : float = 200.0
+var speed_multiplier : float = 1.0
+var speed_whit_shield : float = 0.4
+var speed : float = 200.0
 
 # =========================================
 # HEALTH STATS
 # =========================================
-
 var max_health : int = 100
 var current_health : int = 100
-
 
 # =========================================
 # FUNCTIONS
 # =========================================
-
 func update_max_health(amount : int):
 
 	max_health += amount

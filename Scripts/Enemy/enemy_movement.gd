@@ -16,7 +16,7 @@ var target : Node2D = null
 # VARIABLES
 # =========================================
 #Velocidad del enemigo
-@export var move_speed : float = 100.0
+var move_speed : float
 # True = mirando derecha
 var facing_right : bool = true
 
@@ -66,3 +66,6 @@ func flip() -> void:
 	facing_right = !facing_right	
 	visuals.scale.x *= -1
 	colliders.scale.x *= -1
+	
+func setup(speedEnemy : float):
+	move_speed = speedEnemy

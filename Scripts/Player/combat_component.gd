@@ -3,7 +3,6 @@ extends Node
 # =========================================
 # SIGNALS
 # =========================================
-
 signal attack_1_started
 signal attack_2_started
 signal attack_1_finished
@@ -13,14 +12,12 @@ signal attack_hit_confirmed
 # =========================================
 # REFERENCES
 # =========================================
-
 @onready var hitbox = $"../../Collision/SwordHitbox"
 @onready var attack_cooldown_timer = $"../../Timers/AttackCooldownTimer"
 
 # =========================================
 # VARIABLES
 # =========================================
-
 var is_attacking : bool = false
 var current_attack : int = 0
 var can_attack  : bool = true
@@ -48,6 +45,10 @@ func attack_1():
 	if not can_attack:
 		return
 	
+	hitbox.build_hit_data(
+		PlayerStatsManager.damage,
+		PlayerStatsManager.knockback_force		
+	)
 	hitbox.enable_hitbox()
 	is_attacking = true
 	can_attack = false
@@ -66,7 +67,10 @@ func attack_2():
 
 	if not can_attack:
 		return
-		
+	
+	hitbox.build_hit_data(
+		PlayerStatsManager.damage, 
+		PlayerStatsManager.knockback_force)
 	hitbox.enable_hitbox()
 	is_attacking = true
 	can_attack = false
@@ -77,7 +81,6 @@ func attack_2():
 # =========================================
 # ATTACK END
 # =========================================
-
 func finish_1_attack():	
 	
 	hitbox.disable_hitbox()
@@ -102,8 +105,7 @@ func finish_2_attack():
 # =========================================
 # HIT CONFIRMED
 # =========================================
-
-func _on_hit_confirmed():
+func _on_hit_confirmed(_area):
 
 	print("El enemigo fue golpeado")	
 	#EventBus.hit_confirmed.emit()
@@ -117,7 +119,6 @@ func _on_hit_confirmed():
 # =========================================
 # COOLDOWN
 # =========================================
-
 func start_attack_cooldown():
 
 	attack_cooldown_timer.wait_time = (

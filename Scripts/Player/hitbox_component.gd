@@ -3,19 +3,21 @@ extends Area2D
 # =========================================
 # SIGNALS
 # =========================================
+signal hit_confirmed(hit_data)
 
-signal hit_confirmed
+# =========================================
+# REFERENCES
+# =========================================
+@onready var owner_node = get_owner()
 
 # =========================================
 # ATTACK DATA
 # =========================================
-
-@export var damage : int = 10
+var hit_data : HitData
 
 # =========================================
 # READY
 # =========================================
-
 func _ready():
 
 	# Desactivado por defecto
@@ -25,7 +27,6 @@ func _ready():
 # =========================================
 # HITBOX CONTROL
 # =========================================
-
 func enable_hitbox():
 
 	set_deferred(
@@ -50,11 +51,24 @@ func disable_hitbox():
 		"monitorable",
 		false
 	)
+	
+# =========================================
+# BUILD HIT DATA
+# =========================================
+func build_hit_data(
+	damage : int, knockback : float	
+):
+
+	hit_data = HitData.new()
+
+	hit_data.damage = damage
+	hit_data.knockback_force = knockback
+	hit_data.source = owner_node	
+	hit_data.source_position = global_position
 
 # =========================================
 # DETECT HIT
 # =========================================
-
 func _on_area_entered(area):
 
 	# Verifica que sea una hurtbox
@@ -63,4 +77,4 @@ func _on_area_entered(area):
 
 	print("HIT DETECTED")
 
-	hit_confirmed.emit()
+	hit_confirmed.emit(hit_data)
