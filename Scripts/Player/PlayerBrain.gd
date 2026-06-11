@@ -3,6 +3,7 @@ extends Node
 # =========================================
 # REFERENCES
 # =========================================
+@onready var player = get_parent()
 @onready var state_machine = $"../StateMachine"
 @onready var movement_component = $"../Components/MovementComponent"
 @onready var combat_component = $"../Components/CombatComponent"
@@ -12,6 +13,13 @@ extends Node
 @onready var health_component = $"../Components/HealthComponent"
 @onready var flash_component = $"../Components/FlashComponent"
 @onready var sound = $"../Components/SoundComponent"
+@onready var collisions = $"../Collision"
+@onready var collision_detec = $"../CollisionShape2D"
+
+# =========================================
+# VARIABLES
+# =========================================
+var is_dead : bool = false
 
 # =========================================
 # READY
@@ -138,14 +146,29 @@ func _on_died():
 	
 func disable_player():
 
+	is_dead = true
 	input_component.set_process(false)
 	movement_component.set_physics_process(false)
-	combat_component.disable_combat()
-
-	hurtbox.monitoring = false
-	hurtbox.monitorable = false
+	combat_component.disable_combat()	
+	hurtbox.disable_hurtbox()	
 	
-	remove_from_group("Player")
+	#collision_detec.disabled = true	
+	
+	disable_collisions()
+	player.remove_from_group("Player")
+	
+	
+func disable_collisions():
+
+	for child in collisions.get_children():
+
+		if child is CollisionShape2D:
+
+			child.set_deferred(
+				"disabled",
+				true
+			)
 	
 func config_player_stats():
 	health_component.setup(PlayerStatsManager.max_health)
+	hurtbox._setup(PlayerStatsManager.invulnerable_time)

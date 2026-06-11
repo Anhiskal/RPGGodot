@@ -11,6 +11,7 @@ class_name EnemyData
 @export var attack_damage : int = 10
 @export var attack_range : float = 80.0
 @export var attack_cooldown : float = 1.5
+@export var invulnerable_time : float = 0.2
 
 # =========================================
 # KNOCKBACK
