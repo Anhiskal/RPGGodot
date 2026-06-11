@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://vs5rxl5kny3c" path="res://Scripts/VisualEfects/flash_component.gd" id="9_qqcod"]
 [ext_resource type="Script" uid="uid://bb3w8pq8t2jvi" path="res://Scripts/Player/hurtbox_component.gd" id="9_tx1dd"]
 [ext_resource type="Script" uid="uid://bqtsiwsb1yngq" path="res://Scripts/Player/hitbox_component.gd" id="10_tx1dd"]
+[ext_resource type="Script" uid="uid://ktrdxoxjghtx" path="res://Scripts/Componets/sound_component.gd" id="11_l6n3p"]
+[ext_resource type="AudioStream" uid="uid://cktd0gr8scdu3" path="res://assets/Sounds/gamePlay/sword-hit.mp3" id="12_olqyp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fd4e3"]
 radius = 16.0
@@ -570,6 +572,10 @@ script = ExtResource("8_f1ek2")
 
 [node name="FlashComponent" type="Node" parent="Components" unique_id=1656840156]
 script = ExtResource("9_qqcod")
+
+[node name="SoundComponent" type="Node" parent="Components" unique_id=1235776869]
+script = ExtResource("11_l6n3p")
+hurt_sound = ExtResource("12_olqyp")
 
 [node name="Timers" type="Node" parent="." unique_id=437822720]
 

@@ -11,6 +11,7 @@ extends Node
 @onready var hurtbox = $"../Collision/FrontBodyHurtbox"
 @onready var health_component = $"../Components/HealthComponent"
 @onready var flash_component = $"../Components/FlashComponent"
+@onready var sound = $"../Components/SoundComponent"
 
 # =========================================
 # READY
@@ -19,6 +20,14 @@ func _ready():
 	# Conectar señal del hurtbox
 	hurtbox.hit_received.connect(
 		_on_damaged
+	)
+	
+	health_component.damaged.connect(
+		_on_applited_damage
+	)
+	
+	health_component.died.connect(
+		_on_died
 	)
 	
 	config_player_stats()
@@ -98,8 +107,12 @@ func _on_damaged(hit_data : HitData):
 	health_component.take_damage(
 		hit_data.damage
 	)
-
-	flash_component.flash()	
+	
+	
+func _on_applited_damage(_amoun : int):
+	
+	flash_component.flash()		
+	sound.play_hurt()
 
 	state_machine.change_state(
 		state_machine.State.HURT
@@ -111,9 +124,28 @@ func _on_damaged(hit_data : HitData):
 
 func _on_died():
 
+	print("El jugador murio")
 	state_machine.change_state(
 		state_machine.State.DEAD
 	)
+	
+	disable_player()
+	await get_tree().create_timer(
+		2.0
+	).timeout
+
+	GameManager.restart_level()
+	
+func disable_player():
+
+	input_component.set_process(false)
+	movement_component.set_physics_process(false)
+	combat_component.disable_combat()
+
+	hurtbox.monitoring = false
+	hurtbox.monitorable = false
+	
+	remove_from_group("Player")
 	
 func config_player_stats():
 	health_component.setup(PlayerStatsManager.max_health)

@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 PlayerStatsManager="*uid://i0x471k1uynp"
 GameEffects="*uid://bhaunjeondfrn"
 EventBus="*uid://bfe31n10mx0mj"
+AudioManager="*uid://bona64f3rg1jk"
+GameManager="*uid://bsmkmn31qpf6i"
 
 [global_group]
 

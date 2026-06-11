@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_g7s8r")
 enemy_name = "RedKnight"
+attack_damage = 50
 metadata/_custom_type_script = "uid://knji1lvw5klg"

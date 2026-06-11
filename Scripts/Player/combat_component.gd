@@ -130,3 +130,9 @@ func start_attack_cooldown():
 	await attack_cooldown_timer.timeout
 	can_attack = true
 	
+func disable_combat():
+
+	is_attacking = false
+	current_attack = 0
+	hitbox.disable_hitbox()
+	

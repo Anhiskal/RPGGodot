@@ -3,7 +3,7 @@ class_name player_stats_manager
 # =========================================
 # COMBAT STATS
 # =========================================
-var damage : int = 20
+var damage : int = 50
 var weapon_range : float = 1.5
 var knockback_force : float = 500.0
 var knockback_time : float = 0.2
