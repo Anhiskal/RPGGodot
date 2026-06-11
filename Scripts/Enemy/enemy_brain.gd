@@ -192,5 +192,5 @@ func config_enemy_stats():
 	#Data drive del enemigo
 	health.setup(enemy_data.max_health)
 	combat.setup(enemy_data.attack_damage, enemy_data.knockback_force)
-	movement.setup(enemy_data.move_speed)
-	attack_range = enemy_data.attack_range
+	movement.setup(enemy_data.move_speed)	
+	attack_range = enemy_data.attack_range	

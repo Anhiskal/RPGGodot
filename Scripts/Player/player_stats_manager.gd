@@ -24,7 +24,7 @@ var speed : float = 200.0
 # =========================================
 var max_health : int = 100
 var current_health : int = 100
-
+var invulnerable_time : float = 0.2
 # =========================================
 # FUNCTIONS
 # =========================================

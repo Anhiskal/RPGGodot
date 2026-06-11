@@ -9,6 +9,7 @@ signal hit_received(hit_data)
 # VARIABLES
 # =========================================
 var can_receive_damage : bool = true
+var invulnerable_time : float
 
 # =========================================
 # DETECT DAMAGE
@@ -41,7 +42,33 @@ func _on_area_entered(area):
 func start_invulnerability():
 
 	await get_tree().create_timer(
-		0.2
+		invulnerable_time
 	).timeout
 
 	can_receive_damage = true
+	
+func _setup(invulnerable : float):
+	invulnerable_time = invulnerable
+	
+func disable_hurtbox():
+	set_deferred(
+	"monitoring",
+	false
+	)
+
+	set_deferred(
+		"monitorable",
+		false
+	)
+	
+func enable_hurtbox():
+
+	set_deferred(
+		"monitoring",
+		true
+	)
+
+	set_deferred(
+		"monitorable",
+		true
+	)
