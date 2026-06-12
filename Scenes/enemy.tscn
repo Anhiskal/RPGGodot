@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://cxuxik3w2neo8" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack1.png" id="1_287tu"]
 [ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Scripts/Enemy/enemy_state_machine.gd" id="1_0830c"]
 [ext_resource type="Script" uid="uid://dsdoumw0nnuuh" path="res://Scripts/Enemy/enemy_movement.gd" id="1_ghaa6"]
+[ext_resource type="Resource" uid="uid://c84x4yp13angu" path="res://Scripts/EnemyData/RedKnight_2.tres" id="2_4ycey"]
 [ext_resource type="Texture2D" uid="uid://cu17r70ddh4am" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack2.png" id="2_0830c"]
-[ext_resource type="Resource" uid="uid://dvlvc52rf1idr" path="res://Scripts/EnemyData/RedKnight.tres" id="2_tk7xo"]
 [ext_resource type="Script" uid="uid://2salhof20ye4" path="res://Scripts/Enemy/detection_area.gd" id="3_1dp5w"]
 [ext_resource type="Texture2D" uid="uid://de4514gkciri5" path="res://assets/Sprites/Enemies/Reds/Warrior_Idle.png" id="3_ghaa6"]
 [ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Scripts/Enemy/enemy_combat.gd" id="3_po0sg"]
@@ -446,13 +446,14 @@ z_index = 5
 
 [node name="Brain" type="Node" parent="." unique_id=417424785]
 script = ExtResource("1_56vhr")
-enemy_data = ExtResource("2_tk7xo")
+enemy_data = ExtResource("2_4ycey")
 
 [node name="StateMachine" type="Node" parent="." unique_id=530269349]
 script = ExtResource("1_0830c")
 
-[node name="AnimationController" type="Node" parent="." unique_id=116998875]
+[node name="AnimationController" type="Node" parent="." unique_id=116998875 node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("3_ta2yt")
+animation_tree = NodePath("../Visuals/AnimationTree")
 
 [node name="Navigation" type="Node" parent="." unique_id=716029298]
 
@@ -483,8 +484,9 @@ script = ExtResource("11_qjcj6")
 hurt_sound = ExtResource("12_4ycey")
 death_sound = ExtResource("13_8cim4")
 
-[node name="PatrolComponent" type="Node" parent="Components" unique_id=1822840684]
+[node name="PatrolComponent" type="Node" parent="Components" unique_id=1822840684 node_paths=PackedStringArray("character")]
 script = ExtResource("14_4ycey")
+character = NodePath("../..")
 
 [node name="Timers" type="Node" parent="." unique_id=931332810]
 

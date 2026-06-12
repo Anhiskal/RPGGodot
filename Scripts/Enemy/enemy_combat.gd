@@ -1,10 +1,12 @@
 extends Node
 
+class_name EnemyCombat
 # =========================================
 # SEÑALES
 # =========================================
 signal attack_started
 signal attack_finished
+signal attack_ready
 
 # =========================================
 # REFERENCES
@@ -17,6 +19,7 @@ signal attack_finished
 # =========================================
 # Controla si el enemigo puede atacar
 var can_attack : bool = true
+var is_attacking : bool = false
 
 var damageEnemy : int 
 var forceKnockbackEnemy : float
@@ -47,6 +50,7 @@ func attack():
 	#hitbox.build_hit_data(enemy_stats.attack_damage,hitbox.direction)
 	hitbox.build_hit_data(damageEnemy, forceKnockbackEnemy)
 	
+	is_attacking = true
 	can_attack = false
 	attack_started.emit()
 
@@ -63,6 +67,9 @@ func finish_attack():
 func _on_attack_cooldown_finished():
 
 	can_attack = true
+	is_attacking = false
+	
+	attack_ready.emit()
 	
 # =========================================
 # HITBOX CONTROL

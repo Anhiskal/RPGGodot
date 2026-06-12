@@ -3,7 +3,7 @@ class_name PatrolComponent
 
 
 ## Referencia al character que tendra el patruyaje
-@onready var character : CharacterBody2D = get_parent().get_parent()
+@export var character : CharacterBody2D
 
 # =====================================================
 # REFERENCES
@@ -45,7 +45,13 @@ var is_waiting : bool = false
 # READY
 # =====================================================
 func _ready():
+	
+	print("PATROL PARENT:", get_parent())
+	print("PATROL GRAND PARENT:", get_parent().get_parent())
 
+	if character == null:
+		print("CHARACTER ES NULL")
+		
 	if patrol_path == null:
 		push_warning(
 			"PatrolComponent no tiene asignado un Path2D"

@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://dagrbh3l3sx4o" path="res://Scenes/lavel.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c3brhapcjrnvs" path="res://Scenes/player.tscn" id="1_jjgbg"]
-[ext_resource type="PackedScene" uid="uid://bask8aiit4rlm" path="res://Scenes/enemy.tscn" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://brfigh2bl47kc" path="res://Scripts/Managers/level_manager.gd" id="4_kry3j"]
 [ext_resource type="AudioStream" uid="uid://c3jkw376dnqc8" path="res://assets/Sounds/gamePlay/looped-beat-62827.mp3" id="5_21xkr"]
 [ext_resource type="PackedScene" uid="uid://bkonlgqdqumu" path="res://Scenes/EnemyLimboTest.tscn" id="6_21xkr"]
@@ -34,11 +33,4 @@ curve = SubResource("Curve2D_kry3j")
 [node name="PatrolComponent" parent="EnemyLimbo/Components" parent_id_path=PackedInt32Array(1492723029, 900172494) index="8" unique_id=860647858 node_paths=PackedStringArray("patrol_path")]
 patrol_path = NodePath("../../../PatrolZone")
 
-[node name="Enemy" parent="." unique_id=966302380 instance=ExtResource("3_8gbba")]
-position = Vector2(1042, 459)
-
-[node name="PatrolComponent" parent="Enemy/Components" parent_id_path=PackedInt32Array(966302380, 900172494) index="8" unique_id=1822840684 node_paths=PackedStringArray("patrol_path")]
-patrol_path = NodePath("../../../PatrolZone")
-
 [editable path="EnemyLimbo"]
-[editable path="Enemy"]

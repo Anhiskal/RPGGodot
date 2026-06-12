@@ -10,6 +10,7 @@ extends Node
 # =========================================
 @onready var enemy = get_parent()
 @onready var state_machine = $"../StateMachine"
+@onready var animation_component = $"../AnimationController"
 @onready var movement = $"../Components/MovementComponent"
 @onready var combat = $"../Components/CombatComponent"
 @onready var detection = $"../Collision/DetectionComponent"
@@ -27,16 +28,18 @@ extends Node
 var target : Node2D = null
 var attack_range : float
 var is_patrolling_waiting : bool = false
+var isReady = false
 
 
 func _ready():
 
-	connect_all_signals()	
 	config_enemy_stats()
+	connect_all_signals()
 
 
 func _physics_process(_delta):
-
+	if not isReady:
+		return
 	handle_ai()
 
 
@@ -84,7 +87,6 @@ func  _execute_attack_behavior():
 func _chase_target():
 
 	combat.cancel_attack()
-
 	movement.move_to_target()
 
 	state_machine.change_state(
@@ -235,8 +237,13 @@ func connect_all_signals():
 	)
 	
 func config_enemy_stats():
-	#Data drive del enemigo
+	#Data drive del enemigo	
+	print("animation_component", animation_component)
+	animation_component.reset_playback()
 	health.setup(enemy_data.max_health)
 	combat.setup(enemy_data.attack_damage, enemy_data.knockback_force)
-	movement.setup(enemy_data.move_speed)	
-	attack_range = enemy_data.attack_range	
+	movement.setup(enemy_data.move_speed)
+	attack_range = enemy_data.attack_range
+	
+	isReady = true
+	
