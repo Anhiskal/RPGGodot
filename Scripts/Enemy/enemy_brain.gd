@@ -26,11 +26,12 @@ extends Node
 # =========================================
 var target : Node2D = null
 var attack_range : float
+var is_patrolling_waiting : bool = false
 
 
 func _ready():
 
-	conect_all_signals()	
+	connect_all_signals()	
 	config_enemy_stats()
 
 
@@ -46,70 +47,94 @@ func handle_ai():
 		
 	if knockback.is_knocked:
 		return
-
-	if target != null:
-		movement.move_to_target()
-		check_distance()
 		
-		state_machine.change_state(
-			state_machine.State.CHASE
-		)
-		return		
+	if state_machine.current_state == state_machine.State.ATTACK:
+		return
 
-	state_machine.change_state(
-			state_machine.State.PATROL
-		)
-
-	var patrol_point = patrol.get_current_patrol_point()
-
-	movement.move_to_position(
-		patrol_point
-	)
-
-
-	if patrol.has_reached_point(
-		enemy.global_position
-	):
+	if target != null:		
+		update_combat_behavior()
+		return
 		
-		await patrol.wait_at_point()
-		patrol.go_next_point()
+	process_patrol_behavior()
 	
 
-func check_distance():
-	
-	var distance = enemy.global_position.distance_to(
+
+func update_combat_behavior():
+	var distance_to_target = enemy.global_position.distance_to(
 		target.global_position
 	)
 
-	if distance <= attack_range:
 
-		movement.stop()
+	if distance_to_target <= attack_range:
 
-		if combat.can_attack:
+		_execute_attack_behavior()
 
-			combat.attack()
+	else:
 
-		return
+		_chase_target()
+		
+func  _execute_attack_behavior():
+
+	movement.stop()
+
+	if combat.can_attack:
+
+		combat.attack()
+		
+func _chase_target():
 
 	combat.cancel_attack()
+
 	movement.move_to_target()
 
 	state_machine.change_state(
 		state_machine.State.CHASE
 	)
 
+func process_patrol_behavior():
+	if is_patrolling_waiting:
+		return
 
+
+	var patrol_point = patrol.get_current_patrol_point()
+
+	if patrol.has_reached_point(enemy.global_position):
+
+		wait_at_patrol_point()
+		return
+
+
+	state_machine.change_state(
+		state_machine.State.PATROL
+	)
+
+	movement.move_to_position(
+		patrol_point
+	)
+	
+func wait_at_patrol_point():
+
+	is_patrolling_waiting = true
+	
+	state_machine.change_state(
+		state_machine.State.IDLE
+	)
+	movement.stop()
+	await patrol.wait_at_point()
+
+	patrol.go_next_point()
+
+	is_patrolling_waiting = false
+	
 func _on_target_detected(new_target):
 
 	target = new_target
-
 	movement.target = new_target
 
 
 func _on_target_lost():
 
 	target = null
-
 	movement.target = null
 
 
@@ -175,7 +200,7 @@ func _destroy_enemy():
 	
 	enemy.call_deferred("queue_free")
 	
-func conect_all_signals():
+func connect_all_signals():
 	
 	detection.target_detected.connect(
 		_on_target_detected

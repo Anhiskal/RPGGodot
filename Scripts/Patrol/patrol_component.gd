@@ -204,6 +204,10 @@ func wait_at_point():
 
 	is_waiting = false
 	
+func is_waiting_at_point() -> bool:
+
+	return is_waiting
+	
 func go_next_point():
 
 	current_point_index += 1
