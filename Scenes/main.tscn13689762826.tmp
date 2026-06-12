@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dlstc85qdse1i"]
+
+[ext_resource type="PackedScene" uid="uid://dagrbh3l3sx4o" path="res://Scenes/lavel.tscn" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://c3brhapcjrnvs" path="res://Scenes/player.tscn" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://brfigh2bl47kc" path="res://Scripts/Managers/level_manager.gd" id="4_kry3j"]
+[ext_resource type="AudioStream" uid="uid://c3jkw376dnqc8" path="res://assets/Sounds/gamePlay/looped-beat-62827.mp3" id="5_21xkr"]
+[ext_resource type="PackedScene" uid="uid://bkonlgqdqumu" path="res://Scenes/EnemyLimboTest.tscn" id="6_21xkr"]
+
+[sub_resource type="Curve2D" id="Curve2D_kry3j"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 478, 586, 0, 0, 0, 0, 241, 157, 0, 0, 0, 0, 1145, 537, 0, 0, 0, 0, 1166, 232, 0, 0, 0, 0, 873, 230, 0, 0, 0, 0, 487, 152)
+}
+point_count = 6
+
+[node name="Main" type="Node2D" unique_id=2135842257]
+
+[node name="lavel" parent="." unique_id=779758874 instance=ExtResource("1_bo1nx")]
+
+[node name="Player" parent="." unique_id=195432165 instance=ExtResource("1_jjgbg")]
+position = Vector2(208, 854)
+
+[node name="AudioManager" type="Node" parent="." unique_id=327074098]
+
+[node name="LevelManager" type="Node" parent="." unique_id=308609387]
+script = ExtResource("4_kry3j")
+level_music = ExtResource("5_21xkr")
+
+[node name="PatrolZone" type="Path2D" parent="." unique_id=212208770]
+curve = SubResource("Curve2D_kry3j")
+
+[node name="EnemyLimbo" parent="." unique_id=1492723029 instance=ExtResource("6_21xkr")]
+
+[node name="PatrolComponent" parent="EnemyLimbo/Components" parent_id_path=PackedInt32Array(1492723029, 900172494) index="8" unique_id=860647858 node_paths=PackedStringArray("patrol_path")]
+patrol_path = NodePath("../../../PatrolZone")
+
+[editable path="EnemyLimbo"]

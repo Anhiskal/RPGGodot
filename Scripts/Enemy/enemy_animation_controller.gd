@@ -1,25 +1,29 @@
 extends Node
+class_name EnemyAnimationControl
 
 # =========================================
 # REFERENCES
 # =========================================
-@onready var animation_tree = (
-	$"../Visuals/AnimationTree"
-)
-@onready var playback = (
-	animation_tree["parameters/playback"]
-)
+@export var animation_tree :AnimationTree
+var playback :AnimationNodeStateMachinePlayback
 
 # =========================================
 # FUNTIONS
 # =========================================
+
+func reset_playback():
+	print("animation_tree ", animation_tree)
+	playback = animation_tree.get(
+		"parameters/playback"
+	)
+	
 func play_idle():
 
 	playback.travel("Idle")
 
 
 func play_run():
-
+		
 	playback.travel("Run")
 
 

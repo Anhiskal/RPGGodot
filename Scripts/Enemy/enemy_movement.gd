@@ -1,4 +1,5 @@
 extends Node
+class_name EnemyMovement
 
 # =========================================
 # REFERENCES
@@ -11,6 +12,7 @@ extends Node
 # PLAYER TARGET
 # =========================================
 var target : Node2D = null
+var imPatrolling : bool = true
 
 # =========================================
 # VARIABLES
@@ -23,10 +25,6 @@ var facing_right : bool = true
 # =========================================
 # FUNCTIONs
 # =========================================
-func patrol():
-	#El enemigo patruya
-	enemy.velocity = Vector2.ZERO
-	enemy.move_and_slide()
 
 func move_to_target():
 	#El enemigo sigue al jugador
@@ -34,16 +32,25 @@ func move_to_target():
 		#Si no tiene un objetivo al cual seguir
 		return
 
+	move_to_position(target.global_position)
+		
+	
+func move_to_position(
+	position : Vector2
+):
 	#Direccion entre el enemigo y el objetivo
 	var direction = (
-		target.global_position - enemy.global_position
-	).normalized()
-	
-	enemy.velocity = direction * move_speed	
-	
-	enemy.move_and_slide()	
+		enemy.global_position
+		.direction_to(position)
+	)
+
+
+	enemy.velocity = (
+		direction * move_speed
+	)
+
+	enemy.move_and_slide()
 	handle_flip(direction.x)
-	
 
 func stop():
 
@@ -68,4 +75,4 @@ func flip() -> void:
 	colliders.scale.x *= -1
 	
 func setup(speedEnemy : float):
-	move_speed = speedEnemy
+	move_speed = speedEnemy	

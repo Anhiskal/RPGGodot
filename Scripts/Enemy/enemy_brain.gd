@@ -10,6 +10,7 @@ extends Node
 # =========================================
 @onready var enemy = get_parent()
 @onready var state_machine = $"../StateMachine"
+@onready var animation_component = $"../AnimationController"
 @onready var movement = $"../Components/MovementComponent"
 @onready var combat = $"../Components/CombatComponent"
 @onready var detection = $"../Collision/DetectionComponent"
@@ -19,22 +20,26 @@ extends Node
 @onready var knockback = $"../Components/KnockbackComponent"
 @onready var effects = $"../Components/EffectsComponent"
 @onready var sound = $"../Components/SoundComponent"
+@onready var patrol = $"../Components/PatrolComponent"
 
 # =========================================
 # VARIABLES
 # =========================================
 var target : Node2D = null
 var attack_range : float
+var is_patrolling_waiting : bool = false
+var isReady = false
 
 
 func _ready():
 
-	conect_all_signals()	
 	config_enemy_stats()
+	connect_all_signals()
 
 
 func _physics_process(_delta):
-
+	if not isReady:
+		return
 	handle_ai()
 
 
@@ -45,30 +50,41 @@ func handle_ai():
 		
 	if knockback.is_knocked:
 		return
-
-	if target == null:
-
-		movement.stop()
-
-		state_machine.change_state(
-			state_machine.State.IDLE
-		)
-
+		
+	if state_machine.current_state == state_machine.State.ATTACK:
 		return
 
-	var distance = enemy.global_position.distance_to(
+	if target != null:		
+		update_combat_behavior()
+		return
+		
+	process_patrol_behavior()
+	
+
+
+func update_combat_behavior():
+	var distance_to_target = enemy.global_position.distance_to(
 		target.global_position
 	)
 
-	if distance <= attack_range:
 
-		movement.stop()
+	if distance_to_target <= attack_range:
 
-		if combat.can_attack:
+		_execute_attack_behavior()
 
-			combat.attack()
+	else:
 
-		return
+		_chase_target()
+		
+func  _execute_attack_behavior():
+
+	movement.stop()
+
+	if combat.can_attack:
+
+		combat.attack()
+		
+func _chase_target():
 
 	combat.cancel_attack()
 	movement.move_to_target()
@@ -77,18 +93,50 @@ func handle_ai():
 		state_machine.State.CHASE
 	)
 
+func process_patrol_behavior():
+	if is_patrolling_waiting:
+		return
 
+
+	var patrol_point = patrol.get_current_patrol_point()
+
+	if patrol.has_reached_point(enemy.global_position):
+
+		wait_at_patrol_point()
+		return
+
+
+	state_machine.change_state(
+		state_machine.State.PATROL
+	)
+
+	movement.move_to_position(
+		patrol_point
+	)
+	
+func wait_at_patrol_point():
+
+	is_patrolling_waiting = true
+	
+	state_machine.change_state(
+		state_machine.State.IDLE
+	)
+	movement.stop()
+	await patrol.wait_at_point()
+
+	patrol.go_next_point()
+
+	is_patrolling_waiting = false
+	
 func _on_target_detected(new_target):
 
 	target = new_target
-
 	movement.target = new_target
 
 
 func _on_target_lost():
 
 	target = null
-
 	movement.target = null
 
 
@@ -154,7 +202,7 @@ func _destroy_enemy():
 	
 	enemy.call_deferred("queue_free")
 	
-func conect_all_signals():
+func connect_all_signals():
 	
 	detection.target_detected.connect(
 		_on_target_detected
@@ -189,8 +237,13 @@ func conect_all_signals():
 	)
 	
 func config_enemy_stats():
-	#Data drive del enemigo
+	#Data drive del enemigo	
+	print("animation_component", animation_component)
+	animation_component.reset_playback()
 	health.setup(enemy_data.max_health)
 	combat.setup(enemy_data.attack_damage, enemy_data.knockback_force)
-	movement.setup(enemy_data.move_speed)	
-	attack_range = enemy_data.attack_range	
+	movement.setup(enemy_data.move_speed)
+	attack_range = enemy_data.attack_range
+	
+	isReady = true
+	
