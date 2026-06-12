@@ -6,18 +6,32 @@
 [ext_resource type="Script" uid="uid://brfigh2bl47kc" path="res://Scripts/Managers/level_manager.gd" id="4_kry3j"]
 [ext_resource type="AudioStream" uid="uid://c3jkw376dnqc8" path="res://assets/Sounds/gamePlay/looped-beat-62827.mp3" id="5_21xkr"]
 
+[sub_resource type="Curve2D" id="Curve2D_kry3j"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 478, 586, 0, 0, 0, 0, 241, 157, 0, 0, 0, 0, 1145, 537, 0, 0, 0, 0, 1166, 232, 0, 0, 0, 0, 873, 230, 0, 0, 0, 0, 487, 152)
+}
+point_count = 6
+
 [node name="Main" type="Node2D" unique_id=2135842257]
 
 [node name="lavel" parent="." unique_id=779758874 instance=ExtResource("1_bo1nx")]
 
 [node name="Player" parent="." unique_id=195432165 instance=ExtResource("1_jjgbg")]
-position = Vector2(632, 329)
+position = Vector2(208, 854)
 
 [node name="Enemy" parent="." unique_id=1492723029 instance=ExtResource("3_8gbba")]
 position = Vector2(864, 161)
+
+[node name="PatrolComponent" parent="Enemy/Components" parent_id_path=PackedInt32Array(1492723029, 900172494) index="8" unique_id=1822840684 node_paths=PackedStringArray("patrol_path")]
+patrol_path = NodePath("../../../PatrolZone")
 
 [node name="AudioManager" type="Node" parent="." unique_id=327074098]
 
 [node name="LevelManager" type="Node" parent="." unique_id=308609387]
 script = ExtResource("4_kry3j")
 level_music = ExtResource("5_21xkr")
+
+[node name="PatrolZone" type="Path2D" parent="." unique_id=212208770]
+curve = SubResource("Curve2D_kry3j")
+
+[editable path="Enemy"]

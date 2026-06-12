@@ -22,7 +22,8 @@
 [ext_resource type="AudioStream" uid="uid://cktd0gr8scdu3" path="res://assets/Sounds/gamePlay/sword-hit.mp3" id="12_4ycey"]
 [ext_resource type="AudioStream" uid="uid://6twlnitjl7db" path="res://assets/Sounds/gamePlay/game-character-140506.mp3" id="13_8cim4"]
 [ext_resource type="PackedScene" uid="uid://ktjukuafuq3h" path="res://Scenes/Effects/HitEffect.tscn" id="13_scl1n"]
-[ext_resource type="PackedScene" uid="uid://hpfpxfcpjd53" path="res://Scenes/death_particles.tscn" id="19_dhkrs"]
+[ext_resource type="Script" uid="uid://b34ft1godm8o1" path="res://Scripts/Patrol/patrol_component.gd" id="14_4ycey"]
+[ext_resource type="PackedScene" uid="uid://hpfpxfcpjd53" path="res://Scenes/Effects/death_particles.tscn" id="19_dhkrs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
 radius = 199.0
@@ -481,6 +482,9 @@ script = ExtResource("10_5xdhn")
 script = ExtResource("11_qjcj6")
 hurt_sound = ExtResource("12_4ycey")
 death_sound = ExtResource("13_8cim4")
+
+[node name="PatrolComponent" type="Node" parent="Components" unique_id=1822840684]
+script = ExtResource("14_4ycey")
 
 [node name="Timers" type="Node" parent="." unique_id=931332810]
 

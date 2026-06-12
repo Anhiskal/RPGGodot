@@ -19,6 +19,7 @@ extends Node
 @onready var knockback = $"../Components/KnockbackComponent"
 @onready var effects = $"../Components/EffectsComponent"
 @onready var sound = $"../Components/SoundComponent"
+@onready var patrol = $"../Components/PatrolComponent"
 
 # =========================================
 # VARIABLES
@@ -46,16 +47,36 @@ func handle_ai():
 	if knockback.is_knocked:
 		return
 
-	if target == null:
-
-		movement.stop()
-
+	if target != null:
+		movement.move_to_target()
+		check_distance()
+		
 		state_machine.change_state(
-			state_machine.State.IDLE
+			state_machine.State.CHASE
+		)
+		return		
+
+	state_machine.change_state(
+			state_machine.State.PATROL
 		)
 
-		return
+	var patrol_point = patrol.get_current_patrol_point()
 
+	movement.move_to_position(
+		patrol_point
+	)
+
+
+	if patrol.has_reached_point(
+		enemy.global_position
+	):
+		
+		await patrol.wait_at_point()
+		patrol.go_next_point()
+	
+
+func check_distance():
+	
 	var distance = enemy.global_position.distance_to(
 		target.global_position
 	)

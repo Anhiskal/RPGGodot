@@ -38,8 +38,8 @@ func _ready():
 # =========================================
 # FUNCIONES
 # =========================================
-func attack():
-
+func attack():	
+	
 	if not can_attack:
 		return
 
