@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://dvlvc52rf1idr"]
+
+[ext_resource type="Script" uid="uid://knji1lvw5klg" path="res://Data/Sources/enemy_data.gd" id="1_g7s8r"]
+
+[resource]
+script = ExtResource("1_g7s8r")
+enemy_name = "RedKnight"
+attack_damage = 20
+metadata/_custom_type_script = "uid://knji1lvw5klg"
