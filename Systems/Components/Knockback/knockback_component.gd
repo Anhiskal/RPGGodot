@@ -1,9 +1,9 @@
 extends Node
-class_name KnockbackComponet
+class_name KnockbackComponent
 # =========================================
 # REFERENCES
 # =========================================
-@onready var character = get_parent().get_parent()
+@export var character : CharacterBody2D
 
 # =========================================
 # VARIABLES
@@ -29,7 +29,7 @@ func apply_knockback(hit_data : HitData) -> void:
 	is_knocked = true
 
 	# Dirección opuesta al atacante
-	var direction = (
+	var direction : Vector2 = (
 		character.global_position - hit_data.source_position
 	).normalized()
 

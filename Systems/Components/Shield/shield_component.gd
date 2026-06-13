@@ -1,11 +1,12 @@
 extends Node
 
+class_name  ShieldComponent
 # =========================================
 # REFERENCES
 # =========================================
-@onready var front_hurtbox = (
+@onready var front_hurtbox : Area2D = (
 	$"../../Collision/FrontBodyHurtbox")
-@onready var shield_hitbox = (
+@onready var shield_hitbox : Area2D = (
 	$"../../Collision/ShieldHitbox")
 
 

@@ -9,8 +9,8 @@ signal death_fx_finished
 # =========================================
 # REFERENCES
 # =========================================
-@onready var hit_particles = $"../../Particles/HitParticles"
-@onready var death_particles = $"../../Particles/DeathParticles"
+@onready var hit_particles : GPUParticles2D = $"../../Particles/HitParticles"
+@onready var death_particles : GPUParticles2D = $"../../Particles/DeathParticles"
 
 # =========================================
 # HIT FX

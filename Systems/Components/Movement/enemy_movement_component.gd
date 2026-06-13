@@ -4,15 +4,16 @@ class_name EnemyMovement
 # =========================================
 # REFERENCES
 # =========================================
-@onready var enemy = get_parent().get_parent()
-@onready var visuals = $"../../Visuals"
-@onready var colliders = $"../../Collision"
+@export var enemy : CharacterBody2D
+@onready var visuals : Node2D = $"../../Visuals"
+@onready var colliders : Node2D = $"../../Collision"
 
 # =========================================
 # PLAYER TARGET
 # =========================================
 var target : Node2D = null
 var imPatrolling : bool = true
+var FLIP_THRESHOLD : float = 0.1
 
 # =========================================
 # VARIABLES
@@ -36,10 +37,9 @@ func move_to_target() -> void:
 		
 	
 func move_to_position(
-	position : Vector2
-) -> void:
+	position : Vector2) -> void:
 	#Direccion entre el enemigo y el objetivo
-	var direction = (
+	var direction : Vector2 = (
 		enemy.global_position
 		.direction_to(position)
 	)
@@ -60,10 +60,10 @@ func stop() -> void:
 	
 func handle_flip(direction_x : float) -> void:
 	#Verifica si el enemigo necesita girar
-	if direction_x > 0.1 and not facing_right:
+	if direction_x > FLIP_THRESHOLD and not facing_right:
 		flip()
 
-	elif direction_x < -0.1 and facing_right:
+	elif direction_x < -FLIP_THRESHOLD and facing_right:
 		flip()	
 	
 	

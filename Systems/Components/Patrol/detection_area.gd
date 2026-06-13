@@ -1,5 +1,6 @@
 extends Area2D
 
+class_name DetectionArea
 # =========================================
 # REFERENCES
 # =========================================

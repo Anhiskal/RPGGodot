@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://bkonlgqdqumu"]
 
-[ext_resource type="Script" uid="uid://cn0bxxsgqllge" path="res://Systems/IA/Brain/enemy_brain_limbo.gd" id="1_n3kfi"]
+[ext_resource type="Script" uid="uid://cn0bxxsgqllge" path="res://Systems/AI/Brain/enemy_brain_limbo.gd" id="1_n3kfi"]
 [ext_resource type="Resource" uid="uid://dvlvc52rf1idr" path="res://Data/Enemies/Knigth/RedKnight.tres" id="2_0qfmk"]
-[ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Systems/IA/Brain/enemy_state_machine.gd" id="3_yxepd"]
+[ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Systems/AI/Brain/enemy_state_machine.gd" id="3_yxepd"]
 [ext_resource type="Script" uid="uid://c2jeujfcioseb" path="res://Systems/Components/Animation/enemy_animation_controller.gd" id="4_ecf4h"]
 [ext_resource type="Script" uid="uid://dsdoumw0nnuuh" path="res://Systems/Components/Movement/enemy_movement_component.gd" id="5_wu8d8"]
-[ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Systems/Components/Combat/enemy_combat_componet.gd" id="6_euivu"]
+[ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Systems/Components/Combat/enemy_combat_component.gd" id="6_euivu"]
 [ext_resource type="Script" uid="uid://cf0dtcmwxuh8x" path="res://Systems/Components/Health/health_component.gd" id="7_n3kfi"]
 [ext_resource type="Script" uid="uid://vs5rxl5kny3c" path="res://Systems/Components/Effects/flash_component.gd" id="8_ubuc1"]
 [ext_resource type="Script" uid="uid://c0xr3118utnj7" path="res://Systems/Components/Knockback/knockback_component.gd" id="9_86gya"]
@@ -24,12 +24,12 @@
 [ext_resource type="Texture2D" uid="uid://cw0vvkskifks" path="res://assets/Sprites/Enemies/Reds/Warrior_Run.png" id="21_spc7p"]
 [ext_resource type="PackedScene" uid="uid://ktjukuafuq3h" path="res://Scenes/Effects/HitEffect.tscn" id="22_7n3ls"]
 [ext_resource type="PackedScene" uid="uid://hpfpxfcpjd53" path="res://Scenes/Effects/death_particles.tscn" id="23_j6pru"]
-[ext_resource type="Script" uid="uid://c86l5jw6f3xs0" path="res://Systems/IA/Stats/idle.gd" id="24_n3kfi"]
-[ext_resource type="Script" uid="uid://cml08myj4h1on" path="res://Systems/IA/Stats/chase.gd" id="25_ubuc1"]
-[ext_resource type="Script" uid="uid://blcnfnxf5vcgp" path="res://Systems/IA/Stats/patrol.gd" id="26_86gya"]
-[ext_resource type="Script" uid="uid://b1pfmdya1m8a5" path="res://Systems/IA/Stats/attack.gd" id="27_10l7b"]
-[ext_resource type="Script" uid="uid://cvojok3uadiaq" path="res://Systems/IA/Stats/hurt.gd" id="28_tagxp"]
-[ext_resource type="Script" uid="uid://c6jtm7sg2k4he" path="res://Systems/IA/Stats/dead.gd" id="29_opn26"]
+[ext_resource type="Script" uid="uid://c86l5jw6f3xs0" path="res://Systems/AI/Stats/idle.gd" id="24_n3kfi"]
+[ext_resource type="Script" uid="uid://cml08myj4h1on" path="res://Systems/AI/Stats/chase.gd" id="25_ubuc1"]
+[ext_resource type="Script" uid="uid://blcnfnxf5vcgp" path="res://Systems/AI/Stats/patrol.gd" id="26_86gya"]
+[ext_resource type="Script" uid="uid://b1pfmdya1m8a5" path="res://Systems/AI/Stats/attack.gd" id="27_10l7b"]
+[ext_resource type="Script" uid="uid://cvojok3uadiaq" path="res://Systems/AI/Stats/hurt.gd" id="28_tagxp"]
+[ext_resource type="Script" uid="uid://c6jtm7sg2k4he" path="res://Systems/AI/Stats/dead.gd" id="29_opn26"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_287tu"]
 radius = 199.0
@@ -463,8 +463,9 @@ animation_tree = NodePath("../Visuals/AnimationTree")
 
 [node name="Components" type="Node" parent="." unique_id=900172494]
 
-[node name="MovementComponent" type="Node" parent="Components" unique_id=209369478]
+[node name="MovementComponent" type="Node" parent="Components" unique_id=209369478 node_paths=PackedStringArray("enemy")]
 script = ExtResource("5_wu8d8")
+enemy = NodePath("../..")
 
 [node name="CombatComponent" type="Node" parent="Components" unique_id=128548139]
 script = ExtResource("6_euivu")
@@ -472,13 +473,12 @@ script = ExtResource("6_euivu")
 [node name="HealthComponent" type="Node" parent="Components" unique_id=1292210971]
 script = ExtResource("7_n3kfi")
 
-[node name="DetectionComponent" type="Node" parent="Components" unique_id=1443080752]
-
 [node name="FlashComponent" type="Node" parent="Components" unique_id=941101443]
 script = ExtResource("8_ubuc1")
 
-[node name="KnockbackComponent" type="Node" parent="Components" unique_id=1616923639]
+[node name="KnockbackComponent" type="Node" parent="Components" unique_id=1616923639 node_paths=PackedStringArray("character")]
 script = ExtResource("9_86gya")
+character = NodePath("../..")
 
 [node name="EffectsComponent" type="Node" parent="Components" unique_id=1827972587]
 script = ExtResource("10_10l7b")

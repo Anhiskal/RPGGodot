@@ -47,7 +47,7 @@ func create_sfx_players() -> void:
 
 	for i in sfx_channels:
 
-		var player = AudioStreamPlayer.new()
+		var player : AudioStreamPlayer = AudioStreamPlayer.new()
 		player.volume_db = sfx_volume
 		add_child(player)
 		sfx_players.append(player)

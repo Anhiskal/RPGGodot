@@ -12,8 +12,8 @@ signal return_to_chase_state(target : Node2D)
 # =========================================
 @export var enemy : CharacterBody2D
 @export var movement : EnemyMovement
-@export var animation : EnemyAnimationControl
-@export var combat : EnemyCombat
+@export var animation : EnemyAnimationController
+@export var combat : EnemyCombatComponent
 
 # =========================================
 # VARIABLES
@@ -22,14 +22,14 @@ var target : Node2D
 var animation_finished : bool = false
 var cooldown_finished : bool = false
 
-func get_data(damage : int, knocback : float ) -> void:
+func get_data(damage : int, knocback  : float ) -> void:
 	combat.setup(damage, knocback)
 	
 	combat.attack_finished.connect(
 			_on_attack_finished	
 		)
 		
-	combat.attack_ready.connect(
+	combat.attack_cooldown_finished.connect(
 			_on_attack_ready
 		)
 	
@@ -48,7 +48,7 @@ func _update(_delta) -> void:
 
 	pass
 	
-func _exit():
+func _exit() -> void:
 	pass
 
 func _on_attack_finished() -> void:

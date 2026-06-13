@@ -1,13 +1,15 @@
 extends Node
 
+class_name PlayerMovementComponent
+
 # =========================================
 # REFERENCES
 # =========================================
 # Referencias a otros nodos/componentes
 @export var player : CharacterBody2D
-@onready var shield_component = $"../ShieldComponent"
-@onready var visuals = player.get_node("Visuals")
-@onready var colliders = player.get_node("Collision")
+@onready var shield_component : ShieldComponent = $"../ShieldComponent"
+@onready var visuals : Node2D = player.get_node("Visuals")
+@onready var colliders : Node2D = player.get_node("Collision")
 
 # =========================================
 # VARIABLES
@@ -24,7 +26,7 @@ var movement_input : Vector2 = Vector2.ZERO
 # =========================================
 func move_player() -> void:
 	
-	var speed = PlayerStatsManager.speed
+	var speed : float = PlayerStatsManager.speed
 
 	# Reducir velocidad bloqueando
 	if shield_component.is_blocking:

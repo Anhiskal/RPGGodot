@@ -1,5 +1,6 @@
 extends Area2D
 
+class_name HitboxComponent 
 # =========================================
 # SIGNALS
 # =========================================
@@ -8,7 +9,7 @@ signal hit_confirmed(hit_data : HitData)
 # =========================================
 # REFERENCES
 # =========================================
-@onready var owner_node = get_owner()
+@onready var owner_node : Node = get_owner()
 
 # =========================================
 # ATTACK DATA
@@ -56,14 +57,13 @@ func disable_hitbox() -> void:
 # BUILD HIT DATA
 # =========================================
 func build_hit_data(
-	damage : int, knockback : float	
-) -> void:
+	damage : int, knockback : float) -> void:
 
 	hit_data = HitData.new()
 
 	hit_data.damage = damage
 	hit_data.knockback_force = knockback
-	hit_data.source = owner_node	
+	hit_data.source = owner_node
 	hit_data.source_position = global_position
 
 # =========================================

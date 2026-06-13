@@ -3,15 +3,15 @@ extends LimboState
 # =========================================
 # SIGNALS
 # =========================================
-signal hurt_finished
+signal hurt_completed
 
 # =========================================
 # REFERENCES
 # =========================================
-@export var knockback : KnockbackComponet
+@export var knockback : KnockbackComponent
 @export var sounds : SoundComponent
 @export var effects : EffectsComponent
-@export var animation : EnemyAnimationControl
+@export var animation : EnemyAnimationController
 @export var flash_component : FlashComponent
 
 var hitData : HitData
@@ -23,7 +23,7 @@ func _enter() -> void:
 	play_hurt_effects()
 	
 	await get_tree().create_timer(stunTime).timeout
-	hurt_finished.emit()
+	hurt_completed.emit()
 
 func get_hitdata(hit_data : HitData) -> void:
 	hitData = hit_data

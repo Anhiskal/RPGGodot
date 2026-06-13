@@ -1,18 +1,18 @@
 extends Node
 
-class_name EnemyCombat
+class_name EnemyCombatComponent
 # =========================================
 # SEÑALES
 # =========================================
 signal attack_started
 signal attack_finished
-signal attack_ready
+signal attack_cooldown_finished
 
 # =========================================
 # REFERENCES
 # =========================================
-@onready var hitbox = $"../../Collision/SwordHitbox"
-@onready var cooldown_timer = $"../../Timers/AttackCooldownTimer"
+@onready var hitbox: HitboxComponent = $"../../Collision/SwordHitbox"
+@onready var cooldown_timer : Timer= $"../../Timers/AttackCooldownTimer"
 
 # =========================================
 # VARIABLES
@@ -69,7 +69,7 @@ func _on_attack_cooldown_finished() -> void:
 	can_attack = true
 	is_attacking = false
 	
-	attack_ready.emit()
+	attack_cooldown_finished.emit()
 	
 # =========================================
 # HITBOX CONTROL

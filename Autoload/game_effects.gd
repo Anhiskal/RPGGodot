@@ -3,7 +3,7 @@ extends Node
 # =========================================
 # EFFECT SCENES
 # =========================================
-const HIT_EFFECT = preload(
+const HIT_EFFECT : PackedScene = preload(
     "res://Scenes/Effects/HitEffect.tscn"
 )
 
@@ -47,6 +47,6 @@ func hit_stop(duration : float) -> void:
 # =========================================
 func spawn_hit_effect(position : Vector2) -> void:
 
-	var effect = HIT_EFFECT.instantiate()
+	var effect : Node = HIT_EFFECT.instantiate()
 	get_tree().current_scene.add_child(effect)
 	effect.global_position = position

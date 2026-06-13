@@ -1,5 +1,6 @@
 extends Node
 
+class_name PlayerCombatComponent
 # =========================================
 # SIGNALS
 # =========================================
@@ -12,8 +13,8 @@ signal attack_hit_confirmed
 # =========================================
 # REFERENCES
 # =========================================
-@onready var hitbox = $"../../Collision/SwordHitbox"
-@onready var attack_cooldown_timer = $"../../Timers/AttackCooldownTimer"
+@onready var hitbox : HitboxComponent = $"../../Collision/SwordHitbox"
+@onready var attack_cooldown_timer  : Timer = $"../../Timers/AttackCooldownTimer"
 
 # =========================================
 # VARIABLES

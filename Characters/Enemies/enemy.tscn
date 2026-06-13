@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bask8aiit4rlm"]
 
-[ext_resource type="Script" uid="uid://c84f5pp35il8i" path="res://Systems/IA/Brain/enemy_brain.gd" id="1_56vhr"]
+[ext_resource type="Script" uid="uid://c84f5pp35il8i" path="res://Systems/AI/Brain/enemy_brain.gd" id="1_56vhr"]
 [ext_resource type="Texture2D" uid="uid://cxuxik3w2neo8" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack1.png" id="1_287tu"]
-[ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Systems/IA/Brain/enemy_state_machine.gd" id="1_0830c"]
+[ext_resource type="Script" uid="uid://db06m6128abe5" path="res://Systems/AI/Brain/enemy_state_machine.gd" id="1_0830c"]
 [ext_resource type="Script" uid="uid://dsdoumw0nnuuh" path="res://Systems/Components/Movement/enemy_movement_component.gd" id="1_ghaa6"]
 [ext_resource type="Resource" uid="uid://c84x4yp13angu" path="res://Data/Enemies/Knigth/RedKnight_2.tres" id="2_4ycey"]
 [ext_resource type="Texture2D" uid="uid://cu17r70ddh4am" path="res://assets/Sprites/Enemies/Reds/Warrior_Attack2.png" id="2_0830c"]
 [ext_resource type="Script" uid="uid://2salhof20ye4" path="res://Systems/Components/Patrol/detection_area.gd" id="3_1dp5w"]
 [ext_resource type="Texture2D" uid="uid://de4514gkciri5" path="res://assets/Sprites/Enemies/Reds/Warrior_Idle.png" id="3_ghaa6"]
-[ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Systems/Components/Combat/enemy_combat_componet.gd" id="3_po0sg"]
+[ext_resource type="Script" uid="uid://c5noeb6451pvu" path="res://Systems/Components/Combat/enemy_combat_component.gd" id="3_po0sg"]
 [ext_resource type="Script" uid="uid://c2jeujfcioseb" path="res://Systems/Components/Animation/enemy_animation_controller.gd" id="3_ta2yt"]
 [ext_resource type="Texture2D" uid="uid://cw0vvkskifks" path="res://assets/Sprites/Enemies/Reds/Warrior_Run.png" id="4_1dp5w"]
 [ext_resource type="Script" uid="uid://cf0dtcmwxuh8x" path="res://Systems/Components/Health/health_component.gd" id="4_haro7"]
@@ -455,12 +455,11 @@ script = ExtResource("1_0830c")
 script = ExtResource("3_ta2yt")
 animation_tree = NodePath("../Visuals/AnimationTree")
 
-[node name="Navigation" type="Node" parent="." unique_id=716029298]
-
 [node name="Components" type="Node" parent="." unique_id=900172494]
 
-[node name="MovementComponent" type="Node" parent="Components" unique_id=209369478]
+[node name="MovementComponent" type="Node" parent="Components" unique_id=209369478 node_paths=PackedStringArray("enemy")]
 script = ExtResource("1_ghaa6")
+enemy = NodePath("../..")
 
 [node name="CombatComponent" type="Node" parent="Components" unique_id=128548139]
 script = ExtResource("3_po0sg")
@@ -468,13 +467,12 @@ script = ExtResource("3_po0sg")
 [node name="HealthComponent" type="Node" parent="Components" unique_id=1292210971]
 script = ExtResource("4_haro7")
 
-[node name="DetectionComponent" type="Node" parent="Components" unique_id=1443080752]
-
 [node name="FlashComponent" type="Node" parent="Components" unique_id=941101443]
 script = ExtResource("7_vt4ob")
 
-[node name="KnockbackComponent" type="Node" parent="Components" unique_id=1616923639]
+[node name="KnockbackComponent" type="Node" parent="Components" unique_id=1616923639 node_paths=PackedStringArray("character")]
 script = ExtResource("8_hgeoe")
+character = NodePath("../..")
 
 [node name="EffectsComponent" type="Node" parent="Components" unique_id=1827972587]
 script = ExtResource("10_5xdhn")

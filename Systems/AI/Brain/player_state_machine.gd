@@ -1,5 +1,7 @@
 extends Node
 
+class_name PlayerStateMachine
+
 # =========================================
 # STATES
 # =========================================
@@ -21,7 +23,7 @@ var current_state : State = State.IDLE
 # =========================================
 # REFERENCES
 # =========================================
-@onready var animation_controller = $"../AnimationController"
+@onready var animation_controller : PlayerAnimationController = $"../AnimationController"
 
 # =========================================
 # READY

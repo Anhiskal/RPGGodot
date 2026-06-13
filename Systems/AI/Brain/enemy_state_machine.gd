@@ -1,5 +1,7 @@
 extends Node
 
+class_name  EnemyStateMachine
+
 enum State {
 	IDLE,
 	CHASE,
@@ -17,7 +19,7 @@ var current_state : State
 # =========================================
 # REFERENCES
 # =========================================
-@onready var animation_controller = (
+@onready var animation_controller : EnemyAnimationController = (
 	$"../AnimationController"
 )
 

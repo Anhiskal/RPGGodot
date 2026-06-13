@@ -3,23 +3,24 @@ extends Node
 # =========================================
 # REFERENCES
 # =========================================
-@onready var player = get_parent()
-@onready var state_machine = $"../StateMachine"
-@onready var movement_component = $"../Components/MovementComponent"
-@onready var combat_component = $"../Components/CombatComponent"
-@onready var block_component = $"../Components/ShieldComponent"
-@onready var input_component = $"../Components/InputComponent"
-@onready var hurtbox = $"../Collision/FrontBodyHurtbox"
-@onready var health_component = $"../Components/HealthComponent"
-@onready var flash_component = $"../Components/FlashComponent"
-@onready var sound = $"../Components/SoundComponent"
-@onready var collisions = $"../Collision"
-@onready var collision_detec = $"../CollisionShape2D"
+@onready var player : CharacterBody2D= get_parent()
+@onready var state_machine : PlayerStateMachine = $"../StateMachine"
+@onready var movement_component : PlayerMovementComponent = $"../Components/MovementComponent"
+@onready var combat_component : PlayerCombatComponent= $"../Components/CombatComponent"
+@onready var block_component : ShieldComponent = $"../Components/ShieldComponent"
+@onready var input_component : InputComponent = $"../Components/InputComponent"
+@onready var hurtbox : PlayerHurtboxComponent = $"../Collision/FrontBodyHurtbox"
+@onready var health_component : HealthComponent= $"../Components/HealthComponent"
+@onready var flash_component : FlashComponent = $"../Components/FlashComponent"
+@onready var sound : SoundComponent = $"../Components/SoundComponent"
+@onready var collisions : Node2D = $"../Collision"
+
 
 # =========================================
 # VARIABLES
 # =========================================
 var is_dead : bool = false
+var time_before_dead : float = 2.0
 
 # =========================================
 # READY
@@ -31,7 +32,7 @@ func _ready() -> void:
 	)
 	
 	health_component.damaged.connect(
-		_on_applited_damage
+		_on_applied_damage
 	)
 	
 	health_component.died.connect(
@@ -117,7 +118,7 @@ func _on_damaged(hit_data : HitData) -> void:
 	)
 	
 	
-func _on_applited_damage(_amoun : int):
+func _on_applied_damage(_amoun : int):
 	
 	flash_component.flash()		
 	sound.play_hurt()
@@ -139,7 +140,7 @@ func _on_died() -> void:
 	
 	disable_player()
 	await get_tree().create_timer(
-		2.0
+		time_before_dead
 	).timeout
 
 	GameManager.restart_level()
@@ -171,4 +172,4 @@ func disable_collisions() -> void:
 	
 func config_player_stats() -> void:
 	health_component.setup(PlayerStatsManager.max_health)
-	hurtbox._setup(PlayerStatsManager.invulnerable_time)
+	hurtbox.setup(PlayerStatsManager.invulnerable_time)

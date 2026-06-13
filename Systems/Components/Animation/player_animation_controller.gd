@@ -1,42 +1,43 @@
 extends Node
 
+class_name PlayerAnimationController
 # =========================================
 # REFERENCES
 # =========================================
-@onready var animation_tree = $"../Visuals/AnimationTree"
-@onready var playback = animation_tree[
+@onready var animation_tree : AnimationTree = $"../Visuals/AnimationTree"
+@onready var playback : AnimationNodeStateMachinePlayback = animation_tree[
 	"parameters/playback"
 ]
 
 # =========================================
 # FUNTIONS
 # =========================================
-func play_idle():
+func play_idle() -> void:
 
 	playback.travel("Idle")
 
-func play_walk():
+func play_walk() -> void:
 
 	playback.travel("Run")
 
-func play_attack1():
+func play_attack1() -> void:
 
 	playback.travel("Attack_1")
 	
-func play_attack2():
+func play_attack2() -> void:
 
 	playback.travel("Attack_2")
 
-func play_guard():
+func play_guard() -> void:
 
 	playback.travel("Block")
 
-func play_hurt():
+func play_hurt() -> void:
 
 	#playback.travel("Hurt")
 	pass
 
-func play_dead():
+func play_dead() -> void:
 
 	#playback.travel("Dead")
 	pass

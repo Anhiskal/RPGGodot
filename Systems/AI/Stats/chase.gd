@@ -3,14 +3,14 @@ extends LimboState
 # =========================================
 # SIGNALS
 # =========================================
-signal request_attack(target)
+signal request_attack(target : Node2D)
 
 # =========================================
 # REFERENCES
 # =========================================
 @export var enemy : CharacterBody2D
 @export var movement : EnemyMovement
-@export var animation : EnemyAnimationControl
+@export var animation : EnemyAnimationController
 
 # =========================================
 # TARGET
@@ -43,7 +43,7 @@ func _update(_delta) -> void:
 	if target == null:
 		return
 
-	var distance = (
+	var distance : float = (
 		enemy.global_position
 		.distance_to(target.global_position)
 	)

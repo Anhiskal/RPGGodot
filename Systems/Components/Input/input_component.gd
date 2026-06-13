@@ -1,11 +1,12 @@
 extends Node
 
+class_name  InputComponent
 # =========================================
 # REFERENCES
 # =========================================
-@onready var movement_component = $"../MovementComponent"
-@onready var combat_component = $"../CombatComponent"
-@onready var shield_component = $"../ShieldComponent"
+@onready var movement_component : PlayerMovementComponent = $"../MovementComponent"
+@onready var combat_component : PlayerCombatComponent = $"../CombatComponent"
+@onready var shield_component : ShieldComponent = $"../ShieldComponent"
 
 
 # =========================================

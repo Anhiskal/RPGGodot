@@ -31,13 +31,13 @@ curve = SubResource("Curve2D_kry3j")
 
 [node name="EnemyLimbo" parent="." unique_id=1492723029 instance=ExtResource("6_21xkr")]
 
-[node name="PatrolComponent" parent="EnemyLimbo/Components" parent_id_path=PackedInt32Array(1492723029, 900172494) index="8" unique_id=860647858 node_paths=PackedStringArray("patrol_path")]
+[node name="PatrolComponent" parent="EnemyLimbo/Components" parent_id_path=PackedInt32Array(1492723029, 900172494) index="7" unique_id=860647858 node_paths=PackedStringArray("patrol_path")]
 patrol_path = NodePath("../../../PatrolZone")
 
 [node name="Enemy" parent="." unique_id=966302380 instance=ExtResource("3_8gbba")]
 position = Vector2(1042, 459)
 
-[node name="PatrolComponent" parent="Enemy/Components" parent_id_path=PackedInt32Array(966302380, 900172494) index="8" unique_id=1822840684 node_paths=PackedStringArray("patrol_path")]
+[node name="PatrolComponent" parent="Enemy/Components" parent_id_path=PackedInt32Array(966302380, 900172494) index="7" unique_id=1822840684 node_paths=PackedStringArray("patrol_path")]
 patrol_path = NodePath("../../../PatrolZone")
 
 [editable path="EnemyLimbo"]

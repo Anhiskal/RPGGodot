@@ -6,7 +6,7 @@ extends LimboState
 @export var enemy : CharacterBody2D
 @export var sound : SoundComponent
 @export var effects : EffectsComponent
-@export var knockback : KnockbackComponet
+@export var knockback : KnockbackComponent
 @export var flash_component : FlashComponent
 
 # =========================================

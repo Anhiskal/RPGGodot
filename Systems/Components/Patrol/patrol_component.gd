@@ -44,7 +44,7 @@ var is_waiting : bool = false
 # =====================================================
 # READY
 # =====================================================
-func _ready():
+func _ready() -> void:
 	
 	print("PATROL PARENT:", get_parent())
 	print("PATROL GRAND PARENT:", get_parent().get_parent())
@@ -105,8 +105,7 @@ func get_next_patrol_point() -> Vector2:
 
 ## Verifica si el enemigo llegó al punto actual.
 func has_reached_point(
-	current_position : Vector2
-) -> bool:
+	current_position : Vector2) -> bool:
 
 
 	return (
@@ -193,7 +192,7 @@ func get_current_patrol_point() -> Vector2:
 ## Actualmente no controla movimiento.
 ## Solo mantiene la lógica de tiempo.
 ##
-func wait_at_point():
+func wait_at_point() -> void:
 
 
 	if is_waiting:
@@ -214,7 +213,7 @@ func is_waiting_at_point() -> bool:
 
 	return is_waiting
 	
-func go_next_point():
+func go_next_point() -> void:
 
 	current_point_index += 1
 

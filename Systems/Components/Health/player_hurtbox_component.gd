@@ -1,5 +1,6 @@
 extends Area2D
 
+class_name PlayerHurtboxComponent
 # =========================================
 # SIGNALS
 # =========================================
@@ -9,7 +10,7 @@ signal hit_received(hit_data : HitData)
 # VARIABLES
 # =========================================
 var can_receive_damage : bool = true
-var invulnerable_time : float
+var invulnerable_time : float = 0
 
 # =========================================
 # DETECT DAMAGE
@@ -45,7 +46,7 @@ func start_invulnerability() -> void:
 
 	can_receive_damage = true
 	
-func _setup(invulnerable : float) -> void:
+func setup(invulnerable : float) -> void:
 	invulnerable_time = invulnerable
 	
 func disable_hurtbox() -> void:
@@ -59,7 +60,7 @@ func disable_hurtbox() -> void:
 		false
 	)
 	
-func enable_hurtbox():
+func enable_hurtbox() -> void:
 
 	set_deferred(
 		"monitoring",

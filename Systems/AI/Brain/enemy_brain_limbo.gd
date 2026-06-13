@@ -13,10 +13,10 @@ extends Node
 @onready var hurt_state : LimboState  = $"../LimboHSM/Hurt"
 @onready var dead_state : LimboState  = $"../LimboHSM/Dead"
 
-@onready var combat = $"../Components/CombatComponent"
-@onready var health = $"../Components/HealthComponent"
-@onready var detection = $"../Collision/DetectionComponent"
-@onready var hurtbox = $"../Collision/HurtboxComponent"
+@onready var combat : EnemyCombatComponent = $"../Components/CombatComponent"
+@onready var health : HealthComponent = $"../Components/HealthComponent"
+@onready var detection : DetectionArea = $"../Collision/DetectionComponent"
+@onready var hurtbox : EnemyHurtboxComponent = $"../Collision/HurtboxComponent"
 
 # =========================================
 # VARIABLES
@@ -39,6 +39,7 @@ func setup_all_components() -> void:
 	dead_state.get_data(enemy_data.death_sound_delay)
 	attack_state.get_data(enemy_data.attack_damage, enemy_data.knockback_force)
 	health.setup(enemy_data.max_health)
+	hurtbox.setup(enemy_data.invulnerable_time)
 
 # =====================================================
 # LIMBO INITIALIZATION
@@ -82,7 +83,7 @@ func connect_signals() -> void:
 		_on_damaged
 	)
 	
-	hurt_state.hurt_finished.connect(
+	hurt_state.hurt_completed.connect(
 	_on_hurt_finished
 )
 

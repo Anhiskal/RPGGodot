@@ -1,5 +1,5 @@
 extends Node
-class_name EnemyAnimationControl
+class_name EnemyAnimationController
 
 # =========================================
 # REFERENCES

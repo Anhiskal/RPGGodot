@@ -4,7 +4,7 @@ class_name FlashComponent
 # =========================================
 # REFERENCES
 # =========================================
-@onready var visuals = $"../../Visuals/AnimatedSprite2D"
+@onready var visuals : AnimatedSprite2D = $"../../Visuals/AnimatedSprite2D"
 
 # =========================================
 # VARIABLES

@@ -1,19 +1,16 @@
 extends Area2D
 
+class_name EnemyHurtboxComponent
 # =========================================
 # SIGNALS
 # =========================================
 signal hit_received(hit_data : HitData)
 
 # =========================================
-# REFERENCES
-# =========================================
-@onready var invulnerability_timer = $"../../Timers/InvulnerabilityTimer"
-
-# =========================================
 # VARIABLES
 # =========================================
 var can_receive_damage : bool = true
+var invulnerable_time : float = 0
 
 # =========================================
 # DETECT DAMAGE
@@ -37,7 +34,12 @@ func _on_area_entered(area : Area2D) -> void:
 		
 func start_invulnerability() -> void:
 
-	invulnerability_timer.start()
+	await get_tree().create_timer(
+		invulnerable_time
+	).timeout
 
-	await invulnerability_timer.timeout
 	can_receive_damage = true
+	
+func setup(invulnerable : float) -> void:
+	
+	invulnerable_time = invulnerable

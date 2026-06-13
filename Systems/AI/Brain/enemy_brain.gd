@@ -8,19 +8,19 @@ extends Node
 # =========================================
 # REFERENCES
 # =========================================
-@onready var enemy = get_parent()
-@onready var state_machine = $"../StateMachine"
-@onready var animation_component = $"../AnimationController"
-@onready var movement = $"../Components/MovementComponent"
-@onready var combat = $"../Components/CombatComponent"
-@onready var detection = $"../Collision/DetectionComponent"
-@onready var health = $"../Components/HealthComponent"
-@onready var hurtbox = $"../Collision/HurtboxComponent"
-@onready var flash_component = $"../Components/FlashComponent"
-@onready var knockback = $"../Components/KnockbackComponent"
-@onready var effects = $"../Components/EffectsComponent"
-@onready var sound = $"../Components/SoundComponent"
-@onready var patrol = $"../Components/PatrolComponent"
+@onready var enemy : CharacterBody2D = get_parent()
+@onready var state_machine : EnemyStateMachine = $"../StateMachine"
+@onready var animation_component :EnemyAnimationController= $"../AnimationController"
+@onready var movement : EnemyMovement= $"../Components/MovementComponent"
+@onready var combat : EnemyCombatComponent= $"../Components/CombatComponent"
+@onready var detection : DetectionArea = $"../Collision/DetectionComponent"
+@onready var health : HealthComponent= $"../Components/HealthComponent"
+@onready var hurtbox : EnemyHurtboxComponent= $"../Collision/HurtboxComponent"
+@onready var flash_component : FlashComponent = $"../Components/FlashComponent"
+@onready var knockback : KnockbackComponent = $"../Components/KnockbackComponent"
+@onready var effects : EffectsComponent = $"../Components/EffectsComponent"
+@onready var sound : SoundComponent= $"../Components/SoundComponent"
+@onready var patrol : PatrolComponent = $"../Components/PatrolComponent"
 
 # =========================================
 # VARIABLES
@@ -28,7 +28,7 @@ extends Node
 var target : Node2D = null
 var attack_range : float
 var is_patrolling_waiting : bool = false
-var isReady = false
+var is_ready : bool = false
 
 
 func _ready()  -> void:
@@ -38,7 +38,7 @@ func _ready()  -> void:
 
 
 func _physics_process(_delta)  -> void:
-	if not isReady:
+	if not is_ready:
 		return
 	handle_ai()
 
@@ -54,7 +54,7 @@ func handle_ai()  -> void:
 	if state_machine.current_state == state_machine.State.ATTACK:
 		return
 
-	if target != null:		
+	if target != null:
 		update_combat_behavior()
 		return
 		
@@ -63,7 +63,7 @@ func handle_ai()  -> void:
 
 
 func update_combat_behavior()  -> void:
-	var distance_to_target = enemy.global_position.distance_to(
+	var distance_to_target : float = enemy.global_position.distance_to(
 		target.global_position
 	)
 
@@ -98,7 +98,7 @@ func process_patrol_behavior()  -> void:
 		return
 
 
-	var patrol_point = patrol.get_current_patrol_point()
+	var patrol_point : Vector2 = patrol.get_current_patrol_point()
 
 	if patrol.has_reached_point(enemy.global_position):
 
@@ -243,7 +243,8 @@ func config_enemy_stats() -> void:
 	health.setup(enemy_data.max_health)
 	combat.setup(enemy_data.attack_damage, enemy_data.knockback_force)
 	movement.setup(enemy_data.move_speed)
+	hurtbox.setup(enemy_data.invulnerable_time)
 	attack_range = enemy_data.attack_range
 	
-	isReady = true
+	is_ready = true
 	

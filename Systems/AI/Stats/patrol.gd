@@ -7,7 +7,7 @@ class_name EnemyPatrolState
 @export var enemy : CharacterBody2D
 @export var movement :EnemyMovement
 @export var patrol : PatrolComponent
-@export var animation : EnemyAnimationControl
+@export var animation : EnemyAnimationController
 
 var current_point : Vector2
 var waiting : bool = false
